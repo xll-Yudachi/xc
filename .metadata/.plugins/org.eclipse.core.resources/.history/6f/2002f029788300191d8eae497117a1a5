@@ -1,0 +1,5 @@
+package com.xll.xc.portal.Client;
+
+public interface SearchClient {
+
+}

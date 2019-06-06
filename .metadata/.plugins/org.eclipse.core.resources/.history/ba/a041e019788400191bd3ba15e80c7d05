@@ -1,0 +1,53 @@
+package com.xll.xc.cart.Service;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import com.xll.xc.cart.Dao.ItemDao;
+import com.xll.xc.cart.Pojo.Item;
+import com.xll.xc.cart.Pojo.TotalResult;
+
+@Service
+@Transactional
+public class CartService {
+	
+	@Autowired
+	private RedisTemplate redisTemplate;
+	@Autowired
+	private ItemDao itemDao;
+	
+	public void addItemToCartList(String userId, String itemid,Integer num) {
+		System.err.println(userId);
+		System.err.println(itemid);
+		System.err.println(num);
+		
+		TotalResult result = new TotalResult();
+		
+		List<Item> list = null;
+		Item item = itemDao.findById(itemid).get();
+		
+		result.setNum(num);
+		result.setTitle(item.getTitle());
+		result.setPrice(item.getPrice());
+		result.setTotalFee(result.getPrice().multiply(new BigDecimal(result.getNum().intValue())));
+		result.setTotalMoney(result.getTotalFee());
+		
+		if(redisTemplate.opsForValue().get("cartList_" + userId) == null) {
+			 list = new ArrayList<>();
+			
+		}else {
+			 list = (List<Item>) redisTemplate.opsForValue().get("cartList_" + userId);
+		}
+		list.add(item);
+		System.err.println();
+		redisTemplate.opsForValue().set("cartList_" + userId, list,1,TimeUnit.HOURS);
+	}
+}

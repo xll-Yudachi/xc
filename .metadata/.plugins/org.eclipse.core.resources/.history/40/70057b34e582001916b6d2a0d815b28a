@@ -1,0 +1,10 @@
+package util;
+
+import java.util.List;
+
+public class SpecUtil {
+	public List<String> SpecStringToList(String spec){
+		String temp = spec.substring(1, spec.length()-1);
+		String[] specs = temp.split(",");
+	}
+}

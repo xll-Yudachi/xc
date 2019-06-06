@@ -1,0 +1,8 @@
+app.service('userService' ,function($http){	
+	
+	this.findUserById = function(level,enc){
+		return $http.get('page/user/findUserById/' + level + '/' + enc);
+	}
+	
+	
+});

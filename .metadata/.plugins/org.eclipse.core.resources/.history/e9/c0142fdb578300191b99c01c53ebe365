@@ -1,0 +1,16 @@
+package com.xll.xc.cart.Service;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+@Transactional
+public class CartService {
+	
+	@Autowired
+	public void addGoodsToCartList(String id,Integer num) {
+		
+	}
+}

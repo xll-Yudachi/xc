@@ -1,0 +1,9 @@
+app.service('userService' ,function($http,$location){	
+	
+	this.findUserById = function(itemId,level,enc){
+		
+		return $http.get('page/user/findUserById/' + itemId + '/' + level + '/' + enc);
+	}
+	
+	
+});

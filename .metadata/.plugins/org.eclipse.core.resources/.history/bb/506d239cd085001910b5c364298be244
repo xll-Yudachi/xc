@@ -1,0 +1,11 @@
+package com.xll.xc.pay.Pojo;
+
+import java.io.Serializable;
+
+import javax.persistence.Id;
+
+public class OrderItem implements Serializable{
+	@Id
+	private String id;
+	private String item_id;
+}

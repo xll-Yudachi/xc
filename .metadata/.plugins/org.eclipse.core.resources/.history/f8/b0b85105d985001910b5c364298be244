@@ -1,0 +1,27 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class test {
+	
+	public static List LinkedHashMapToList{
+		
+	}
+	
+	public static void main(String[] args) {
+		String ssString = "[围巾品牌: 汉尚华莲, 功能: 保暖, 材质: 棉, 图案: 植物花卉, 风格: 其他, 性别: 通用, 款式: 围脖, 颜色分类: 红色毛领1个-现货 粉红色毛领1个-现货, 货号: HPS122, 适用季节: 春秋 冬季, 服装款式细节: 刺绣]";
+		List<String> list = SpecStringToList(ssString);
+		Map map = ChooseSpec(list);
+		/*List<String> t = (List<String>)map.get("  颜色分类");
+		for(String s:t) {
+			System.err.println(s);
+		}*/
+	}
+}

@@ -1,0 +1,37 @@
+app.service('userCenterService' ,function($http){	
+	this.findUserById = function(level,enc){
+		return $http.get('/user/findUserById/' + level + '/' + enc);
+	}
+	
+	this.findUserByEnc = function(enc){
+		return $http.get('/userCenter/findUserByEnc/' + enc);
+	}
+	
+	this.findOrderItemByEnc = function(enc){
+		return $http.get('/userCenter/findOrderItemByEnc/' + enc);
+	}
+	
+	this.findOrderByEnc = function(enc){
+		return $http.get('/userCenter/findOrderByEnc/' + enc);
+	}
+	
+	this.findOrderMapByEnc = function(enc){
+		return $http.get('/userCenter/findOrderMapByEnc/' + enc);
+	}
+	
+	this.findOrderMapByEncAndKey = function(enc,key){
+		return $http.get('/userCenter/findOrderMapByEncAndKey/' + enc + '/' +key);
+	}
+	
+	this.addAddress = function(enc,entity){
+		return $http.post('/userCenter/addAddress/' + enc,entity);
+	}
+	
+	this.findAddressByEnc = function(enc){
+		return $http.get('/userCenter/findAddr/' + enc);
+	}
+	
+	this.updateUserInfo = function(enc,entity){
+		return $http.post('/userCenter/update/' + enc,entity);
+	}
+});

@@ -1,0 +1,23 @@
+package com.xll.xc.cart.Service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import com.xll.xc.cart.Pojo.Item;
+
+@Service
+@Transactional
+public class CartService {
+	
+	@Autowired
+	private RedisTemplate redisTemplate;
+	
+	public void addItemToCartList(String userId, String itemid,Integer num) {
+		
+	}
+}

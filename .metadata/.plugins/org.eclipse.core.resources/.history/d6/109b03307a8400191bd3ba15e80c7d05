@@ -1,0 +1,5 @@
+package com.xll.xc.page.Client;
+
+public interface CartClient {
+
+}

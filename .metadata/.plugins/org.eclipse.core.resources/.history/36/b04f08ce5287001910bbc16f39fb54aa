@@ -1,0 +1,43 @@
+app.service('sellerCenterService' ,function($http){	
+	
+	this.findSellerByEnc = function(enc){
+		return $http.get('/seller/findUser/' + enc);
+	}
+	
+	this.findItemBySellerId = function(enc){
+		return $http.get('/seller/findItem/' + enc + '/1' + '/16');
+	}
+	
+	this.findShopBySellerId = function(enc){
+		return $http.get('/seller/findShop/' + enc + '/1' + '/10');
+	}
+	
+	this.addShop = function(entity,enc){
+		return $http.post('/seller/addShop/' + enc,entity);
+	}
+	
+	this.searchByKeyWord = function(enc,key){
+		return $http.get('/seller/search/' + enc + '/' + key + '/1/5' );
+	}
+	
+	this.Export = function(enc,entity){
+		return $http.post('/seller/export/' + enc,entity);
+	}
+	
+	this.findOrderItemByEnc = function(enc){
+		return $http.get('/seller/findOrderItemByEnc/' + enc);
+	}
+	
+	this.findOrderByEnc = function(enc){
+		return $http.get('/seller/findOrderByEnc/' + enc);
+	}
+	
+	this.findOrderMapByEnc = function(enc){
+		return $http.get('/seller/findOrderMapByEnc/' + enc);
+	}
+	
+	this.findOrderMapByEncAndKey = function(enc,key){
+		return $http.get('/seller/findOrderMapByEncAndKey/' + enc + '/' +key);
+	}
+	
+});

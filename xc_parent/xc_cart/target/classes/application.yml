@@ -1,0 +1,25 @@
+server:
+  port: 9107
+spring:
+  application:
+    name: xc-cart
+  datasource: 
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: ZUIEWANGGUAN
+    url: jdbc:mysql://192.168.80.131:3306/xc?characterEncoding=utf-8
+  jpa:
+    show-sql: true
+    database: mysql
+  redis:
+   host: 192.168.80.131
+jwt:
+  config:
+    key: com.xll
+    ttl:  3600000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka/
+  instance:
+    prefer-ip-address: true

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="xc_parent"/>
+<aop-project name="xc_pay"/>
+<aop-project name="xc_page"/>
+<aop-project name="xc_order"/>
+<aop-project name="xc_user"/>
+<aop-project name="xc_sms"/>
+<aop-project name="xc_common"/>
+<aop-project name="xc_sellergoods"/>
+<aop-project name="xc_seller"/>
+<aop-project name="xc_cart"/>
+<aop-project name="xc_search"/>
+<aop-project name="xc_eureka"/>
+<aop-project name="xc_portal"/>
+</aop-reference-model>

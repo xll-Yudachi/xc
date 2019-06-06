@@ -1,0 +1,27 @@
+server:
+  port: 9102
+spring:
+  application:
+    name: xc-seller
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.80.131:3306/xc?characterEncoding=utf-8
+    username: root
+    password: ZUIEWANGGUAN
+  jpa:
+    database: mysql
+    show-sql: true
+  rabbitmq:
+    host: 192.168.80.131
+  redis:
+    host: 192.168.80.131
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka/
+  instance:
+    ip-address: true
+jwt:
+  config:
+    key: com.xll
+    ttl:  3600000

@@ -1,0 +1,62 @@
+package com.xll.xc.cart.Pojo;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+
+public class TotalResult implements Serializable{
+	private String id;
+	private String title;
+	private BigDecimal price;
+	private BigDecimal totalFee;
+	private BigDecimal totalMoney;
+	private Integer num;
+	public TotalResult(String title, BigDecimal price, BigDecimal totalFee, BigDecimal totalMoney, Integer num,String id) {
+		this.title = title;
+		this.price = price;
+		this.totalFee = totalFee;
+		this.totalMoney = totalMoney;
+		this.num = num;
+		this.id = id;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public TotalResult() {
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+	public BigDecimal getTotalFee() {
+		return totalFee;
+	}
+	public void setTotalFee(BigDecimal totalFee) {
+		this.totalFee = totalFee;
+	}
+	public BigDecimal getTotalMoney() {
+		return totalMoney;
+	}
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
+	}
+	public Integer getNum() {
+		return num;
+	}
+	public void setNum(Integer num) {
+		this.num = num;
+	}
+	
+}

@@ -1,0 +1,17 @@
+server:
+  port: 9003
+spring:
+  application:
+    name: xc-sms 
+  rabbitmq:
+    host: 192.168.80.131
+appid: 1400190281
+appkey: 649d1a747e28727b4de2187e1139ca3e
+templateId: 286585
+sign: 夕立立
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka/
+  instance:
+    prefer-ip-address: true

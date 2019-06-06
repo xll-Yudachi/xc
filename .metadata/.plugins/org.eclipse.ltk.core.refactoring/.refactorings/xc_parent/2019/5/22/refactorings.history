@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;xc_parent/xc_content&apos; to &apos;xc_page&apos;" description="Rename resource &apos;xc_content&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="xc_content" name="xc_page" stamp="1559175030643" updateReferences="true"/>
+</session>

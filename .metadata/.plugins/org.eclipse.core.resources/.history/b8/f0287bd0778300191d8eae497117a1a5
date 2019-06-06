@@ -1,0 +1,9 @@
+app.service('searchService' ,function($http){	
+	
+	//查询所有商品
+	this.findByKey = function(categoryId){
+		return $http.get('portal/goodsdesc/findAllGoodsDescByCategory2_Id/' + categoryId);
+	}
+	
+	
+});

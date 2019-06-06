@@ -1,0 +1,5 @@
+app.service('cartService' ,function($http){	
+	this.showCart = function(enc){
+		return $http.get('/cart/showCartList/' + enc);
+	}
+});

@@ -1,0 +1,24 @@
+package com.xll.xc.seller.Service;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xll.xc.seller.Dao.SellerDao;
+import com.xll.xc.seller.Pojo.Seller;
+
+import util.JwtUtil;
+
+@Service
+@Transactional
+public class SellerCenterService {
+
+	@Autowired
+	private SellerDao sellerDao;
+	@Autowired
+	private JwtUtil jwtUtil;
+	
+	public Seller findSellerByEnc(String enc) {
+	}
+}

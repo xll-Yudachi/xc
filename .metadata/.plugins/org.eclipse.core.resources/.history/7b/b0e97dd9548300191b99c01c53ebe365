@@ -1,0 +1,14 @@
+package com.xll.xc.cart.Pojo;
+
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+
+@Entity
+public class TotalResult {
+	private String title;
+	private BigDecimal price;
+	private BigDecimal totalFee;
+	private BigDecimal totalMoney;
+	private Integer num;
+}

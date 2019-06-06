@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="首页" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="首页"/>
+			<item value="ng-click"/>
+			<item value="库存"/>
+			<item value="status"/>
+			<item value="change"/>
+			<item value="发布商品"/>
+			<item value="查询"/>
+			<item value="搜索"/>
+			<item value="order"/>
+			<item value="下单"/>
+			<item value="全选"/>
+			<item value="userCenterService"/>
+			<item value="订单专区"/>
+			<item value="订单赚取"/>
+			<item value="销售"/>
+		</list>
+		<list key="replacehistory">
+			<item value="sellerCenterService"/>
+			<item value="images"/>
+			<item value="categoryid"/>
+			<item value="&lt;li class=&quot;name&quot; style=&quot;margin-top:7px;&quot;&gt;"/>
+			<item value="&lt;li class=&quot;name&quot; style=&quot;margin-top:10px;&quot;&gt;"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="354" key="DIALOG_WIDTH"/>
+		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
+		<item value="454" key="DIALOG_HEIGHT"/>
+		<item value="64" key="DIALOG_X_ORIGIN"/>
+		<item value="316" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

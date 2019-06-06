@@ -1,0 +1,11 @@
+app.controller('searchController',function($scope,searchService){
+	
+	$scope.findByKey = function(){
+		searchService.findByKey($scope.key).success(
+			function(response){
+				alert(response.data.rows[0].title);
+			}
+		);
+	}
+	
+}); 

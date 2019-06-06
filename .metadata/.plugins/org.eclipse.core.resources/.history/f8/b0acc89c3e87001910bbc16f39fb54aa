@@ -1,0 +1,88 @@
+app.controller('sellerCenterController',function($scope,sellerCenterService,$http,$location){
+	
+	$scope.enc = $location.search()['enc'];
+	$scope.level = $location.search()['level'];
+	$scope.shopEntity = {};
+	$scope.searchKey = "";
+	$scope.findSellerByEnc = function(){
+		sellerCenterService.findSellerByEnc($scope.enc).success(
+			function(response){
+				if(response.flag){
+					$scope.seller = response.data;
+					$scope.seller.create_time = getNowFormatDate($scope.seller.create_time);
+				}
+			}
+		);
+	}
+	
+	$scope.findItemBySellerId = function(){
+		sellerCenterService.findItemBySellerId($scope.enc).success(
+			function(response){
+				if(response.flag){
+					$scope.itemList = response.data.rows;
+					$scope.searchItemList = response.data.rows;
+				}
+			}
+		);
+	}
+	
+	$scope.findShopBySellerId = function(){
+		sellerCenterService.findShopBySellerId($scope.enc).success(
+			function(response){
+				if(response.flag){
+					$scope.shopList = response.data.rows;
+				}
+			}
+		);
+	}
+	
+	
+	
+	$scope.addShop = function(){
+		sellerCenterService.addShop($scope.shopEntity,$scope.enc).success(
+			function(response){
+				if(response.flag){
+					alert(response.message);
+					$scope.shopEntity = {};
+					window.location.reload(true);
+				}
+			}
+		);
+	}
+	
+	$scope.searchByKeyWord = function(){
+		sellerCenterService.searchByKeyWord($scope.enc,$scope.searchKey).success(
+			function(response){
+				if(response.flag){
+					$scope.searchItemList = response.data.rows;
+				}
+			}	
+		);
+	}
+	
+	getNowFormatDate = function()  {//获取当前时间
+		var date = new Date();
+		var seperator1 = "-";
+		var seperator2 = ":";
+		var month = date.getMonth() + 1<10? "0"+(date.getMonth() + 1):date.getMonth() + 1;
+		var strDate = date.getDate()<10? "0" + date.getDate():date.getDate();
+		var currentdate = date.getFullYear() + seperator1  + month  + seperator1  + strDate
+		+ " "  + date.getHours()  + seperator2  + date.getMinutes()
+		+ seperator2 + date.getSeconds();
+		return currentdate;
+	}
+ 	
+	$scope.TimeEntity = {};
+
+	$scope.Export = function(){
+		alert($scope.TimeEntity.startTime);
+		sellerCenterService.Export($scope.enc,$scope.TimeEntity).success(
+			function(response){
+				if(response.flag){
+					alert(response.message);
+				}
+			}
+		);
+	}
+}); 
+

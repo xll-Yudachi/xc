@@ -1,0 +1,1303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+<script src="js/common_js.js" type="text/javascript"></script>
+<script src="js/footer.js" type="text/javascript"></script>
+
+<!-- 引入AngularJS -->
+
+<script type="text/javascript" src="Plugins/angularjs/angular.min.js"></script>
+	
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/service/itemcategoryService.js"></script>
+<script type="text/javascript" src="js/controller/itemcategoryController.js"></script>
+<script type="text/javascript" src="js/service/goodsService.js"></script>
+<script type="text/javascript" src="js/controller/goodsController.js"></script>
+<script type="text/javascript" src="js/service/goodsDescService.js"></script>
+<script type="text/javascript" src="js/controller/userController.js"></script>
+<script type="text/javascript" src="js/service/userService.js"></script>
+<script type="text/javascript" src="js/controller/itemController.js"></script>
+<script type="text/javascript" src="js/service/itemService.js"></script>
+<script type="text/javascript" src="js/controller/searchController.js"></script>
+<script type="text/javascript" src="js/service/searchService.js"></script>
+<title>夕城</title>
+</head>
+
+<body ng-cloak ng-app="xc" ng-controller="itemcategoryController" ng-init="findByCategoryId(0);findAllSub();">
+<head>
+ <div id="header_top" ng-controller="userController" ng-init="currentUser()">
+  <div id="top">
+    <div class="Inside_pages">
+      <div class="Collection" ng-if="RawLevel==null "><a href="http://localhost:9106/login.html" class="green">请登录</a> <a href="http://localhost:9106/register.html" class="green">免费注册</a></div>
+	  <div class="Collection" ng-if="RawLevel==1 ">{{User.username}}，欢迎您</div>
+	  <div class="Collection" ng-if="RawLevel==2 ">{{Seller.name}}，欢迎您</div>
+	<div class="hd_top_manu clearfix">
+	  <ul class="clearfix">
+	   <li class="hd_menu_tit" data-addclass="hd_menu_hover"><a href="#">首页</a></li> 
+	   <li class="hd_menu_tit" data-addclass="hd_menu_hover"> <a href="#">我的小充</a> </li>
+	   <li class="hd_menu_tit" data-addclass="hd_menu_hover"><a href="#">消息中心</a></li>
+       <li class="hd_menu_tit" data-addclass="hd_menu_hover"><a href="#">商品分类</a></li>
+        <li class="hd_menu_tit" data-addclass="hd_menu_hover"><a href="#">我的购物车<b>(23)</b></a></li>
+	  </ul>
+	</div>
+    </div>
+  </div>
+  <div id="header"  class="header page_style">
+  <div class="logo"><a href="index.html"><img src="images/logo.png" /></a></div>
+  <!--结束图层-->
+  <div class="Search">
+        <div class="search_list">
+            <ul>
+                <li class="current"><a href="#">产品</a></li>
+                <li><a href="#">信息</a></li>
+            </ul>
+        </div>
+        <div class="clear search_cur" ng-controller="searchController">
+           <input name="searchName" id="searchName" class="search_box" type="text" ng-model={{key}} />
+           <input name="" type="submit" value="搜 索"  class="Search_btn" ng-click=findByKey() />
+        </div>
+        <div class="clear hotword">热门搜索词：香醋&nbsp;&nbsp;&nbsp;茶叶&nbsp;&nbsp;&nbsp;草莓&nbsp;&nbsp;&nbsp;葡萄&nbsp;&nbsp;&nbsp;菜油</div>
+</div>
+ <!--购物车样式-->
+ <div class="hd_Shopping_list" id="Shopping_list">
+   <div class="s_cart"><a href="#">我的购物车</a> <i class="ci-right">&gt;</i><i class="ci-count" id="shopping-amount">0</i></div>
+   <div class="dorpdown-layer">
+    <div class="spacer"></div>
+	 <!--<div class="prompt"></div><div class="nogoods"><b></b>购物车中还没有商品，赶紧选购吧！</div>-->
+	 <ul class="p_s_list">	   
+		<li>
+		    <div class="img"><img src="images/tianma.png"></div>
+		    <div class="content"><p class="name"><a href="#">产品名称</a></p><p>颜色分类:紫花8255尺码:XL</p></div>
+			<div class="Operations">
+			<p class="Price">￥55.00</p>
+			<p><a href="#">删除</a></p></div>
+		  </li>
+		</ul>		
+	 <div class="Shopping_style">
+	 <div class="p-total">共<b>1</b>件商品　共计<strong>￥ 515.00</strong></div>
+	  <a href="Shop_cart.html" title="去购物车结算" id="btn-payforgoods" class="Shopping">去购物车结算</a>
+	 </div>	 
+   </div>
+ </div>
+</div>
+<!--菜单栏-->
+	<div class="Navigation" id="Navigation">
+		 <ul class="Navigation_name">
+			<li><a href="Home.html">首页</a></li>
+            <li class="hour"><span class="bg_muen"></span><a href="#">半小时生活圈</a></li>
+			<li><a href="#">你身边的超市</a></li>
+			<li><a href="#">预售专区</a><em class="hot_icon"></em></li>
+			<li><a href="products_list.html">商城</a></li>
+			
+			<li><a href="#">好评商户</a></li>
+			<li><a href="#">热销活动</a></li>
+			<li><a href="Brands.html">联系我们</a></li>
+		 </ul>			 
+		</div>
+	<script>$("#Navigation").slide({titCell:".Navigation_name li",trigger:"click"});</script>
+    </div>
+</head>
+<!--广告幻灯片样式-->
+   	<div id="slideBox" class="slideBox">
+			<div class="hd">
+				<ul class="smallUl"></ul>
+			</div>
+			<div class="bd">
+				<ul>
+					<li><a href="#" target="_blank"><div style="background:url(AD/ad-1.jpg) no-repeat; background-position:center; width:100%; height:450px;"></div></a></li>
+					<li><a href="#" target="_blank"><div style="background:url(AD/ad-2.jpg) no-repeat; background-position:center ; width:100%; height:450px;"></div></a></li>
+					<li><a href="#" target="_blank"><div style="background:url(AD/ad-3.jpg) no-repeat rgb(226, 155, 197); background-position:center; width:100%; height:475px;"></div></a></li>
+                    <li><a href="#" target="_blank"><div style="background:url(AD/ad-7.jpg) no-repeat #f7ddea; background-position:center; width:100%; height:450px;"></div></a></li>
+                    <li><a href="#" target="_blank"><div style="background:url(AD/ad-6.jpg) no-repeat  #F60; background-position:center; width:100%; height:450px;"></div></a></li>
+				</ul>
+			</div>
+			<!-- 下面是前/后按钮-->
+			<a class="prev" href="javascript:void(0)"></a>
+			<a class="next" href="javascript:void(0)"></a>
+
+		</div>
+		<script type="text/javascript">
+		jQuery(".slideBox").slide({titCell:".hd ul",mainCell:".bd ul",autoPlay:true,autoPage:true});
+		</script>
+ </div>
+
+<!--内容样式-->
+<div id="mian" ng-cloak>
+ <div class="clearfix marginbottom">
+ <!--产品分类样式-->
+  <div class="Menu_style" id="allSortOuterbox">
+   <div class="title_name"><em></em>所有商品分类</div>
+   <div class="content hd_allsort_out_box_new">
+    <ul class="Menu_list">
+      <li class="name">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[0].name}} /</a> 
+			<a href="product_list.html" >{{list[1].name}} /</a> 
+			<a href="product_list.html" >{{list[2].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt ><a href="#">{{list[0].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[1] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			<dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[1].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[2] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[2].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[3] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[3].name}} /</a> 
+			<a href="product_list.html" >{{list[4].name}} /</a> 
+			<a href="product_list.html" >{{list[5].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[3].name}}<i>></i></a></dt>
+		     <dd>
+			 	<span ng-repeat="item in CategorySubList[4] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[4].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[5] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[5].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[6] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[6].name}} /</a> 
+			<a href="product_list.html" >{{list[7].name}} /</a> 
+			<a href="product_list.html" >{{list[8].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[6].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[7] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[7].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[8] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[8].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[9] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[9].name}} /</a> 
+			<a href="product_list.html" >{{list[10].name}} /</a> 
+			<a href="product_list.html" >{{list[11].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[9].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[10] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[10].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[11] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[11].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[12] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[12].name}} /</a> 
+			<a href="product_list.html" >{{list[13].name}} /</a> 
+			<a href="product_list.html" >{{list[14].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[12].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[13] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[13].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[14] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[14].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[15] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[15].name}} /</a> 
+			<a href="product_list.html" >{{list[16].name}} /</a> 
+			<a href="product_list.html" >{{list[17].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[15].name}}<i>></i></a></dt>
+			 <dd>
+			 	<span ng-repeat="item in CategorySubList[16] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[16].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[17] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[17].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[18] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[18].name}} /</a> 
+			<a href="product_list.html" >{{list[19].name}} /</a> 
+			<a href="product_list.html" >{{list[20].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[18].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[19] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[19].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[20] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[20].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[21] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[21].name}} /</a> 
+			<a href="product_list.html" >{{list[22].name}} /</a> 
+			<a href="product_list.html" >{{list[23].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[21].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[22] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[22].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[23] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[23].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[24] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[24].name}} /</a> 
+			<a href="product_list.html" >{{list[25].name}} /</a> 
+			<a href="product_list.html" >{{list[26].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[24].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[25] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[25].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[26] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[26].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[27] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[27].name}} /</a> 
+			<a href="product_list.html" >{{list[28].name}} /</a> 
+			<a href="product_list.html" >{{list[29].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[27].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[28] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[28].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[29] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[29].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[30] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[30].name}} /</a> 
+			<a href="product_list.html" >{{list[31].name}} /</a> 
+			<a href="product_list.html" >{{list[32].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[30].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[31] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[31].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[32] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[32].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[33] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[33].name}} /</a> 
+			<a href="product_list.html" >{{list[34].name}} /</a> 
+			<a href="product_list.html" >{{list[35].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[33].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[34] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[34].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[35] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[35].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[36] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[36].name}} /</a> 
+			<a href="product_list.html" >{{list[37].name}} /</a> 
+			<a href="product_list.html" >{{list[38].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[36].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[37] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[37].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[38] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[38].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[39] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[39].name}} /</a> 
+			<a href="product_list.html" >{{list[40].name}} /</a> 
+			<a href="product_list.html" >{{list[41].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[39].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[40] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[40].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[41] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[41].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[42] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[42].name}} /</a> 
+			<a href="product_list.html" >{{list[43].name}} /</a> 
+			<a href="product_list.html" >{{list[44].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[42].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[43] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[43].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[44] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[44].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[45] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+		<li class="name" style="margin-top:7px;">
+		<div class="Menu_name">
+			<a href="product_list.html" >{{list[45].name}} /</a> 
+			<a href="product_list.html" >{{list[46].name}} /</a> 
+			<a href="product_list.html" >{{list[47].name}} </a> 
+			<span>&lt;</span>
+		</div>
+		<div class="menv_Detail">
+		 <div class="cat_pannel clearfix">
+		   <div class="hd_sort_list">
+			<dl class="clearfix" data-tpc="2">
+			 <dt><a href="#">{{list[45].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[46] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="3">
+			 <dt><a href="#">{{list[46].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[47] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+			 <dl class="clearfix" data-tpc="4">
+			 <dt><a href="#">{{list[47].name}}<i>></i></a></dt>
+			<dd>
+			 	<span ng-repeat="item in CategorySubList[48] | limitTo : 20">
+			 		<a href="#">{{item.name}}</a>
+			 	</span>
+			 </dd>
+			</dl>
+		   </div><div class="Brands">
+		  </div>
+		  </div>
+		  <!--品牌-->		  
+		</div>	
+		<script>$("#allSortOuterbox").slide({ titCell:".Menu_list li",mainCell:".menv_Detail",	});</script>	 
+		</li>
+		
+    </ul>
+   </div>
+  </div>
+  <!--产品栏切换-->
+  <div class="product_list left">
+  		<div class="slideGroup">
+			<div class="parHd">
+				<ul><li>新品上市</li><li>超值特惠</li><li>本期团购</li><li>产品精选</li><li>抢先一步</li></ul>
+			</div>
+			<div class="parBd">
+					<div class="slideBoxs">
+						<a class="sPrev" href="javascript:void(0)"></a>
+						<ul>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_11.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_12.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_13.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_15.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+						</ul>
+						<a class="sNext" href="javascript:void(0)"></a>
+					</div><!-- slideBox End -->
+
+					<div class="slideBoxs">
+						<a class="sPrev" href="javascript:void(0)"></a>
+						<ul>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_15.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_15.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_34.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_58.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+						</ul>
+						<a class="sNext" href="javascript:void(0)"></a>
+					</div><!-- slideBox End -->
+
+					<div class="slideBoxs">
+						<a class="sPrev" href="javascript:void(0)"></a>
+						<ul>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_57.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_56.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_54.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_55.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+						</ul>
+						<a class="sNext" href="javascript:void(0)"></a>
+					</div><!-- slideBox End -->
+                    	<div class="slideBoxs">
+						<a class="sPrev" href="javascript:void(0)"></a>
+						<ul>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_50.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_51.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_52.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_53.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+						</ul>
+						<a class="sNext" href="javascript:void(0)"></a>
+					</div><!-- slideBox End -->
+                    	<div class="slideBoxs">
+						<a class="sPrev" href="javascript:void(0)"></a>
+						<ul>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_15.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_17.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_16.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+							<li>
+								<div class="pic"><a href="#" target="_blank"><img src="products/p_19.jpg" /></a></div>
+								<div class="title">
+                                <a href="#" target="_blank" class="name">乐事 无限薯片三连装（原味+番茄+烤肉）104g*3/组</a>
+                                <h3><b>￥</b>23.00</h3>
+                                </div>
+							</li>
+						</ul>
+						<a class="sNext" href="javascript:void(0)"></a>
+					</div><!-- slideBox End -->
+
+			</div><!-- parBd End -->
+		</div>
+        <script type="text/javascript">
+			/* 内层图片无缝滚动 */
+			jQuery(".slideGroup .slideBoxs").slide({ mainCell:"ul",vis:4,prevCell:".sPrev",nextCell:".sNext",effect:"leftMarquee",interTime:50,autoPlay:true,trigger:"click"});
+			/* 外层tab切换 */
+			jQuery(".slideGroup").slide({titCell:".parHd li",mainCell:".parBd"});
+		</script>
+        <!--广告样式-->
+        <div class="Ads_style"><a href="#"><img src="images/AD_03.png"  width="318"/></a><a href="#"><img src="images/AD_04.png" width="318"/></a><a href="#"><img src="images/AD_06.png" width="318"/></a></div>
+  </div>
+ </div>
+ 
+ 
+ <!--板块栏目样式  左1-->
+ <div class="clearfix Plate_style" ng-controller="goodsController" ng-init="findCategory1GoodsByPage(1)"> 
+  <div class="Plate_column Plate_column_left">
+    <div class="Plate_name">
+    <h2>产品名称</h2>
+    	<div class="Sort_link">
+    		<span ng-repeat="category in list | limitTo : 12">
+    			<a class="name" ng-click="findCategory1GoodsByPage(category.id);">{{category.name}}</a>
+    		</span> 
+    	</div>
+    <a href="#" class="Plate_link"> <img src="images/bk_img_14.png" /></a>
+   
+    </div>
+    <div class="Plate_product" ng-controller="itemController">
+    <ul id="lists">
+     <li class="product_display"  ng-repeat="goods in category1List">
+     <a href="" class="Collect"  ><em></em>收藏</a>
+     <a href="#" class="img_link" ng-click="findItemByGoodsId(goods.id)">
+     	 <img src="{{goodsdescImage[goods.id]}}"  width="110" height="140"/>
+     </a>
+     <a href="#" class="name">{{goods.goods_name}}</a>
+     <h3><b>￥</b>{{goods.price}}</h3>
+    <div class="Detailed">
+	   <div class="content">
+		  <p class="center"><a href="#" class="Buy_btn">立即购买</a></p>
+		  </div>
+	   </div>
+     </li>
+    </ul>
+    </div>
+  </div>
+  
+  <!--板块名称  右1-->
+    <div class="Plate_column Plate_column_right" ng-controller="goodsController" ng-init="findCategory1GoodsByPage(13)">
+    <div class="Plate_name">
+    <h2>产品名称</h2>
+    <div class="Sort_link">
+    	<span ng-repeat="category in list | limitTo : 24">
+    			<a ng-if="$index>=12" ng-click="findCategory1GoodsByPage(category.id);" class="name">{{category.name}}</a>
+    	</span> 
+    </div>
+    <a href="#" class="Plate_link"> <img src="images/bk_img_19.png" /></a>
+   
+    </div>
+    <div class="Plate_product" ng-controller="itemController" >
+    <ul id="lists">
+     <li class="product_display"  ng-repeat="goods in category1List">
+     <a href="" class="Collect"><em></em>收藏</a>
+     <a href="#" class="img_link" ng-click="findItemByGoodsId(goods.id)">
+     	 <img src="{{goodsdescImage[goods.id]}}"  width="110" height="140"/>
+     </a>
+     <a href="#" class="name">{{goods.goods_name}}</a>
+     <h3><b>￥</b>{{goods.price}}</h3>
+    <div class="Detailed">
+	   <div class="content">
+		  <p class="center"><a href="#" class="Buy_btn">立即购买</a></p>
+		  </div>
+	   </div>
+     </li>
+    </ul>
+    </div>
+  </div>
+  
+  <!-- 版块名称 左2 -->
+   <div class="Plate_column Plate_column_left" ng-controller="goodsController" ng-init="findCategory1GoodsByPage(25)">
+    <div class="Plate_name">
+    <h2>产品名称</h2>
+    <div class="Sort_link">
+ 		<span ng-repeat="category in list | limitTo : 36">
+    		<a ng-if="$index>=24" ng-click="findCategory1GoodsByPage(category.id);" class="name">{{category.name}}</a>
+    	</span> 
+    </div>
+    <a href="#" class="Plate_link"> <img src="images/bk_img_22.png" /></a>
+   
+    </div>
+    <div class="Plate_product" ng-controller="itemController">
+    <ul id="lists">
+     <li class="product_display"  ng-repeat="goods in category1List">
+     <a href="" class="Collect"><em></em>收藏</a>
+     <a href="#" class="img_link" ng-click="findItemByGoodsId(goods.id)">
+     	 <img src="{{goodsdescImage[goods.id]}}"  width="110" height="140"/>
+     </a>
+     <a href="#" class="name">{{goods.goods_name}}</a>
+     <h3><b>￥</b>{{goods.price}}</h3>
+    <div class="Detailed">
+	   <div class="content">
+		  <p class="center"><a href="#" class="Buy_btn">立即购买</a></p>
+		  </div>
+	   </div>
+     </li>
+    </ul>
+    </div>
+  </div>
+  
+  
+  <!--板块名称  右2-->
+    <div class="Plate_column Plate_column_right">
+    <div class="Plate_name">
+    <h2>产品名称</h2>
+    <div class="Sort_link">
+		<span ng-repeat="category in list | limitTo : 48">
+    			<a ng-if="$index>=36" href="#" class="name">{{category.name}}</a>
+    	</span> 
+	</div>
+    <a href="#" class="Plate_link"> <img src="images/bk_img_14.png" /></a>
+   
+    </div>
+    <div class="Plate_product">
+    <ul id="lists">
+     <li class="product_display">
+     <a href="" class="Collect"><em></em>收藏</a>
+     <a href="#" class="img_link"><img src="products/p_31.jpg"  width="140" height="140"/></a>
+     <a href="#" class="name">墨西哥原装进口 科罗娜啤酒</a>
+     <h3><b>￥</b>34.00</h3>
+    <div class="Detailed">
+	   <div class="content">
+		  <p class="center"><a href="#" class="Buy_btn">立即购买</a></p>
+		  </div>
+	   </div>
+     </li>
+     <li class="product_display">
+      <a href="" class="Collect"><em></em>收藏</a>
+     <a href="#" class="img_link"><img src="products/p_32.jpg"  width="140" height="140"/></a>
+     <a href="#" class="name">墨西哥原装进口 科罗娜啤酒</a>
+     <h3><b>￥</b>34.00</h3>
+      <div class="Detailed">
+	   <div class="content">
+		  <p class="center"><a href="#" class="Buy_btn">立即购买</a></p>
+		  </div>
+	   </div>
+     </li>
+     <li class="product_display">
+      <a href="" class="Collect"><em></em>收藏</a>
+     <a href="#" class="img_link"><img src="products/p_33.jpg"  width="140" height="140"/></a>
+     <a href="#" class="name">墨西哥原装进口 科罗娜啤酒</a>
+     <h3><b>￥</b>34.00</h3>
+       <div class="Detailed">
+	   <div class="content">
+		  <p class="center"><a href="#" class="Buy_btn">立即购买</a></p>
+		  </div>
+	   </div>
+     </li>
+     <li class="product_display">
+      <a href="" class="Collect"><em></em>收藏</a>
+     <a href="#" class="img_link"><img src="products/p_37.jpg"  width="140" height="140"/></a>
+     <a href="#" class="name">墨西哥原装进口 科罗娜啤酒 科罗娜啤酒</a>
+     <h3><b>￥</b>34.00</h3>
+     <div class="Detailed">
+	   <div class="content">
+		  <p class="center"><a href="#" class="Buy_btn">立即购买</a></p>
+		  </div>
+	   </div>
+     </li>
+    </ul>
+    </div>
+  </div>
+ </div>
+ <!--友情链接-->
+ <div class="link_style clearfix">
+ <div class="title">友情链接</div>
+ <div class="link_name">
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+  <a href="#"><img src="products/logo/34.jpg"  width="100"/></a>
+ </div>
+ </div>
+</div>
+<!--网站地图-->
+<div class="fri-link-bg clearfix">
+    <div class="fri-link">
+        <div class="logo left margin-r20"><img src="images/fo-logo.jpg" width="152" height="81" /></div>
+        <div class="left"><img src="images/qd.jpg" width="90"  height="90" />
+            <p>扫描下载APP</p>
+        </div>
+       <div class="">
+    <dl>
+	 <dt>新手上路</dt>
+	 <dd><a href="#">售后流程</a></dd>
+     <dd><a href="#">购物流程</a></dd>
+     <dd><a href="#">订购方式</a> </dd>
+     <dd><a href="#">隐私声明 </a></dd>
+     <dd><a href="#">推荐分享说明 </a></dd>
+	</dl>
+	<dl>
+	 <dt>配送与支付</dt>
+	 <dd><a href="#">保险需求测试</a></dd>
+     <dd><a href="#">专题及活动</a></dd>
+     <dd><a href="#">挑选保险产品</a> </dd>
+     <dd><a href="#">常见问题 </a></dd>
+	</dl>
+	<dl>
+	 <dt>售后保障</dt>
+	 <dd><a href="#">保险需求测试</a></dd>
+     <dd><a href="#">专题及活动</a></dd>
+     <dd><a href="#">挑选保险产品</a> </dd>
+     <dd><a href="#">常见问题 </a></dd>
+	</dl>
+	<dl>
+	 <dt>支付方式</dt>
+	 <dd><a href="#">保险需求测试</a></dd>
+     <dd><a href="#">专题及活动</a></dd>
+     <dd><a href="#">挑选保险产品</a> </dd>
+     <dd><a href="#">常见问题 </a></dd>
+	</dl>	
+    <dl>
+	 <dt>帮助中心</dt>
+	 <dd><a href="#">保险需求测试</a></dd>
+     <dd><a href="#">专题及活动</a></dd>
+     <dd><a href="#">挑选保险产品</a> </dd>
+     <dd><a href="#">常见问题 </a></dd>
+	</dl>
+     <dl>
+	 <dt>帮助中心</dt>
+	 <dd><a href="#">保险需求测试</a></dd>
+     <dd><a href="#">专题及活动</a></dd>
+     <dd><a href="#">挑选保险产品</a> </dd>
+     <dd><a href="#">常见问题 </a></dd>
+	</dl>
+     <dl>
+	 <dt>帮助中心</dt>
+	 <dd><a href="#">保险需求测试</a></dd>
+     <dd><a href="#">专题及活动</a></dd>
+     <dd><a href="#">挑选保险产品</a> </dd>
+     <dd><a href="#">常见问题 </a></dd>
+	</dl>	   
+   </div>
+    </div>
+</div>
+<!--网站地图END-->
+<!--网站页脚-->
+<div class="copyright">
+    <div class="copyright-bg">
+        <div class="hotline">为生活充电在线 <span>招商热线：****-********</span> 客服热线：400-******</div>
+        <div class="hotline co-ph">
+            <p>版权所有Copyright ©***************</p>
+            <p>*ICP备***************号 不良信息举报</p>
+            <p>总机电话：****-*********/194/195/196 客服电话：4000****** 传 真：********
+                
+                E-mail:****@****.gov.cn</p>
+        </div>
+    </div>
+</div>
+ <!--右侧菜单栏购物车样式-->
+<div class="fixedBox">
+  <ul class="fixedBoxList">
+      <li class="fixeBoxLi user"><a href="#"> <span class="fixeBoxSpan"></span> <strong>消息中心</strong></a> </li>
+    <li class="fixeBoxLi cart_bd" style="display:block;" id="cartboxs">
+		<p class="good_cart">9</p>
+			<span class="fixeBoxSpan"></span> <strong>购物车</strong>
+			<div class="cartBox">
+       		<div class="bjfff"></div><div class="message">购物车内暂无商品，赶紧选购吧</div>    </div></li>
+    <li class="fixeBoxLi Service "> <span class="fixeBoxSpan"></span> <strong>客服</strong>
+      <div class="ServiceBox">
+        <div class="bjfffs"></div>
+        <dl onclick="javascript:;">
+		    <dt><img src="images/Service1.png"></dt>
+		       <dd><strong>QQ客服1</strong>
+		          <p class="p1">9:00-22:00</p>
+		           <p class="p2"><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=123456&amp;site=DGG三端同步&amp;menu=yes">点击交谈</a></p>
+		          </dd>
+		        </dl>
+				<dl onclick="javascript:;">
+		          <dt><img src="images/Service1.png"></dt>
+		          <dd> <strong>QQ客服1</strong>
+		            <p class="p1">9:00-22:00</p>
+		            <p class="p2"><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=123456&amp;site=DGG三端同步&amp;menu=yes">点击交谈</a></p>
+		          </dd>
+		        </dl>
+	          </div>
+     </li>
+	 <li class="fixeBoxLi code cart_bd " style="display:block;" id="cartboxs">
+			<span class="fixeBoxSpan"></span> <strong>微信</strong>
+			<div class="cartBox">
+       		<div class="bjfff"></div>
+			<div class="QR_code">
+			 <p><img src="images/erweim.jpg" width="180px" height="180px" /></p>
+			 <p>微信扫一扫，关注我们</p>
+			</div>		
+			</div>
+			</li>
+
+    <li class="fixeBoxLi Home"> <a href="./"> <span class="fixeBoxSpan"></span> <strong>收藏夹</strong> </a> </li>
+    <li class="fixeBoxLi BackToTop"> <span class="fixeBoxSpan"></span> <strong>返回顶部</strong> </li>
+  </ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+app.controller('cartController',function($scope,cartService,$location){
+	
+	
+	$scope.addItemToCartList = function(){
+		getTokenFromUrl();
+		cartService.addItemToCartList($scope.num).success(
+			function(response){
+			
+			}	
+		);
+	}
+	
+	getTokenFromUrl = function(){
+		var url = $location.absUrl();
+		alert(url);
+		var arr = url.split("/");
+		var ItemId = arr[6]
+		var Token = arr[7];
+	}
+}); 
+
+//http://localhost:9004/page/item/findItemById/1369838/eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMTMzNjM2MDIyMTc4MDE3MjgwIiwic3ViIjoi5Lmw5a625a-G56CB6ZqQ6JePIiwiaWF0IjoxNTU5Mzk2NDQzLCJyb2xlcyI6InVzZXIiLCJleHAiOjE1NTk0MDAwNDN9.01xJbYk8_N2EGtFzUrrmzHhUYNAbWhr455fBsXye_Ec/1

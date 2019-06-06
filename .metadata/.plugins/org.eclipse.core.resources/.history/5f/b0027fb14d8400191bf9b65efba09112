@@ -1,0 +1,27 @@
+app.controller('userController',function($scope,userService,$location){
+	
+	
+	if(typeof($location.search()['enc'];)!="undefined"){
+		app.value('first_enc',$location.search()['enc']);
+	}
+	$scope.enc = first_enc;
+	$scope.RawLevel = null;
+	$scope.currentUser = function(){
+		var enc = $location.search()['enc'];
+		alert(enc);
+		var level = $location.search()['level'];
+		$scope.RawLevel = level;
+		userService.findUserById(level,enc).success(
+			function(response){
+				if(response.flag){
+					if(level == '1'){
+						$scope.User = response.data;
+					}
+					if(level == '2'){
+						$scope.Seller = response.data;
+					}
+				}
+			}
+		);
+	}
+}); 

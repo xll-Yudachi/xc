@@ -1,0 +1,9 @@
+app.service('itemService' ,function($http){	
+	
+	//查询所有商品
+	this.findItemById = function(id){
+		return $http.get('/page/item/findItemById/'+id);
+	}
+	
+	
+});

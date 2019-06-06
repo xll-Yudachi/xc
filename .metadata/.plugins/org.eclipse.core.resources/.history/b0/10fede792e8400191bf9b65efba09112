@@ -1,0 +1,94 @@
+package com.xll.xc.user.Controller;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+
+import javax.print.DocFlavor.STRING;
+
+import org.hibernate.usertype.UserVersionType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xll.xc.user.Pojo.Seller;
+import com.xll.xc.user.Pojo.User;
+import com.xll.xc.user.Service.UserService;
+
+import entity.Result;
+import entity.StatusCode;
+import util.IdWorker;
+import util.JwtUtil;
+
+/**
+ * ClassName : UserController 
+ * Description : 用户控制层 
+ * CreateDate : 2019年5月28日 下午9:59:02
+ * Author : Yudachi
+ * @Version : V1.0.0
+ */
+@RestController
+@CrossOrigin
+@RequestMapping("/user")
+public class UserController {
+	
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private IdWorker idWorker;
+	@Autowired
+	private JwtUtil jwtUtil;
+	
+	@PostMapping("/register/{checkCode}/{level}")
+	public Result registerUser(@PathVariable String checkCode, @PathVariable String level,@RequestBody User user) {
+		User saveUser = new User();
+		saveUser.setId(String.valueOf(idWorker.nextId()));
+		saveUser.setUsername(user.getUsername());
+		saveUser.setPassword(user.getPassword());
+		saveUser.setSource_type("1");
+		saveUser.setPhone(user.getPhone());
+		saveUser.setCreated(new Timestamp(new Date().getTime()));
+		saveUser.setUpdated(new Timestamp(new Date().getTime()));
+		saveUser.setLast_login_time(new Timestamp(new Date().getTime()));
+		
+		Result result = userService.registerUser(level,checkCode,saveUser);
+		
+		return result;
+	
+	}
+	
+	@GetMapping("/sendsms/{phone}")
+	public Result sendSms(@PathVariable String phone) {
+		userService.sendSms(phone);
+		return new Result(true,StatusCode.OK,"验证码发送成功！");
+	}
+	
+	@PostMapping("/userLogin")
+	public Result userLogin(@RequestBody User user) {
+		User loginUser = userService.userLogin(user);
+		if(loginUser==null) {
+			return new Result(false,StatusCode.LOGINERROR,"登陆失败");
+		}
+		//生成JWT令牌
+		String token = jwtUtil.createJWT(loginUser.getId(), loginUser.getUsername(), "user");
+		
+		return new Result(true,StatusCode.OK,"登录成功",loginUser);
+	}
+	
+	@PostMapping("/sellerLogin")
+	public Result sellerLogin(@RequestBody Seller seller) {
+		Seller loginSeller = userService.sellerLogin(seller);
+		return new Result(true,StatusCode.OK,"登录成功",loginSeller);
+	}
+	
+	@GetMapping("/findUserById/{level}/{id}")
+	public Result findUserById(@PathVariable String level,@PathVariable String id) {
+		return new Result(true,StatusCode.OK,"查询成功",userService.findUserById(level, id));
+	}
+}

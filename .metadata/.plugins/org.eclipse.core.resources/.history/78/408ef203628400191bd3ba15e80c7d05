@@ -1,0 +1,19 @@
+app.controller('itemController',function($scope,itemService,$location){
+	
+	$scope.findItemByGoodsId = function(goodsId){
+		var enc = $location.search()['enc'];
+		var level = $location.search()['level'];
+		itemService.findItemByGoodsId(goodsId).success(
+			function(response){
+				$scope.currentItem = response.data;
+				
+				window.location.href="http://localhost:9004/page/item/findItemById/" + $scope.currentItem.id +"#?enc=" + enc + "&level=" + level;
+			}
+		);
+	}
+	
+	$scope.findItemById = function(id){
+		var enc = $location.search()['enc'];
+		window.location.href="http://localhost:9004/page/item/findItemById/" + id + "#?enc=" + enc + "&level=" + level;
+	}
+}); 

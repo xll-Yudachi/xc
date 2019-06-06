@@ -1,0 +1,18 @@
+app.controller('itemController',function($scope,itemService){
+	
+	$scope.findItemById=function(id){
+		window.location.href="http://localhost:9004/page/item/findItemById/" + id;
+	}
+	
+	$scope.findItemByGoodsId = function(goodsId){
+		alert(goodsId);
+		itemService.findItemByGoodsId(goodsId).success(
+			function(response){
+				$scope.currentItem = response.data;
+				alert($scope.currentItem.id);
+			}
+		);
+	}
+	
+	
+}); 

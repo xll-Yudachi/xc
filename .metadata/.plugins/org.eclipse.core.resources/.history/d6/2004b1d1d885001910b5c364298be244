@@ -1,0 +1,80 @@
+package test;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+public class TotalResult implements Serializable{
+	private static final long serialVersionUID = -3970293186227198136L;
+	
+	private String id;
+	private String title;
+	private BigDecimal price;
+	private BigDecimal totalFee;
+	private BigDecimal totalMoney;
+	private Integer num;
+	private String image;
+	private String sellerid;
+	
+	public TotalResult(String sellerid,String image,String title, BigDecimal price, BigDecimal totalFee, BigDecimal totalMoney, Integer num,String id) {
+		this.sellerid = sellerid;
+		this.image = image;
+		this.title = title;
+		this.price = price;
+		this.totalFee = totalFee;
+		this.totalMoney = totalMoney;
+		this.num = num;
+		this.id = id;
+	}
+	
+	public String getSellerid() {
+		return sellerid;
+	}
+
+	public void setSellerid(String sellerid) {
+		this.sellerid = sellerid;
+	}
+
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public TotalResult() {
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+	public BigDecimal getTotalFee() {
+		return totalFee;
+	}
+	public void setTotalFee(BigDecimal totalFee) {
+		this.totalFee = totalFee;
+	}
+	public BigDecimal getTotalMoney() {
+		return totalMoney;
+	}
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
+	}
+	public Integer getNum() {
+		return num;
+	}
+	public void setNum(Integer num) {
+		this.num = num;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+}

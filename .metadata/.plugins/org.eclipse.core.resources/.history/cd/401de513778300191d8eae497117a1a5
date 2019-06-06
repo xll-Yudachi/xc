@@ -1,0 +1,8 @@
+server:
+  port: 9104
+spring:
+  application:
+    name: xc-search
+  data:
+    elasticsearch:
+      cluster-nodes: localhost:9300

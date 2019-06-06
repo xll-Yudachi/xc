@@ -1,0 +1,36 @@
+package com.xll.xc.portal.Client;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import entity.PageResult;
+import entity.Result;
+import entity.StatusCode;
+/**
+ * <p> ClassName : SellergoodsClient </p>
+ * <p> Description : 调用sellergoods模块 </p>
+ * CreateDate : 2019年4月8日 下午8:53:25
+ * Author : Yudachi
+ * @Version : V1.0.0
+ */
+@FeignClient(value = "xc-sellergoods")
+public interface SellergoodsClient {
+
+	@RequestMapping("/goods/findAll")
+	public Result findAll();
+	
+	@RequestMapping("goodsdesc/findAllGoodsDescByCategory2_Id/{categoryId}")
+	public Result findAllGoodsDescByCategory2_Id(@PathVariable("categoryId") Long categoryId);
+	
+	@RequestMapping("/goods/findByCategory1WithPage/{category1_id}")
+	public Result findByCategory1WithPage(@PathVariable("category1_id") Long category1_id);
+	
+	@RequestMapping("/item/findItemByGoodsId/{goodsId}")
+	public Result findItemByGoodsId(@PathVariable("goodsId") Long goodsId);
+	
+}

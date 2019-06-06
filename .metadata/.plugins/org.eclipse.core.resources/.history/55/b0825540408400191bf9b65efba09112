@@ -1,0 +1,163 @@
+package com.xll.xc.user.Service;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
+import javax.transaction.Transactional;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.xll.xc.user.Dao.SellerDao;
+import com.xll.xc.user.Dao.UserDao;
+import com.xll.xc.user.Pojo.Seller;
+import com.xll.xc.user.Pojo.User;
+
+import entity.Result;
+import entity.StatusCode;
+import io.jsonwebtoken.Claims;
+import util.IdWorker;
+import util.JwtUtil;
+
+/**
+ * ClassName : UserService Description : 用户模块服务类 CreateDate : 2019年5月28日
+ * 下午10:00:04 Author : Yudachi
+ * 
+ * @Version : V1.0.0
+ */
+@Service
+@Transactional
+public class UserService {
+	@Autowired
+	private UserDao userDao;
+	@Autowired
+	private SellerDao sellerDao;
+	@Autowired
+	private RedisTemplate redisTemplate;
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
+	@Autowired
+	private IdWorker idWorker;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	@Autowired
+	private JwtUtil jwtUtil;
+	
+	/**
+	 * Title : registerUser Description : 添加注册用户 CreateDate : 2019年5月28日 下午11:00:32
+	 * Author : Yudachi @param user void @throws
+	 */
+	public Result registerUser(String level, String checkCode, User user) {
+		String checkCodeFromRedis = (String) redisTemplate.opsForValue().get("checkcode_" + user.getPhone());
+		if (checkCode.isEmpty()) {
+			return new Result(false, StatusCode.ERROR, "请先输入验证码");
+		}
+		if (!checkCodeFromRedis.equals(checkCode)) {
+			return new Result(false, StatusCode.ERROR, "验证码错误");
+		}
+		if (level.equals("1")) { // 用户注册
+			user.setPassword(encoder.encode(user.getPassword()));
+			userDao.save(user);
+		}
+		if (level.equals("2")) { // 卖家注册
+			Seller seller = new Seller();
+			seller.setSeller_id(String.valueOf(idWorker.nextId()));
+			seller.setName(user.getUsername());
+			seller.setPassword(encoder.encode(user.getPassword()));
+			seller.setMobile(user.getPhone());
+			seller.setLinkman_mobile(user.getPhone());
+			seller.setCreate_time(new Timestamp(new Date().getTime()));
+			sellerDao.save(seller);
+		}
+		return new Result(true, StatusCode.OK, "注册成功");
+	}
+
+	/**
+	 * Title : sendSms Description : 短信发送 CreateDate : 2019年5月29日 上午8:13:24 Author :
+	 * Yudachi @param phone void @throws
+	 */
+	public void sendSms(String phone) {
+		// 生成6位随机验证码并且放入缓存中
+		String checkCode = RandomStringUtils.randomNumeric(6);
+		redisTemplate.opsForValue().set("checkcode_" + phone, checkCode, 6, TimeUnit.HOURS);
+		// 通过rabbitmq发送给用户
+		Map<String, String> map = new HashMap<>();
+		map.put("mobile", phone);
+		map.put("checkCode", checkCode);
+
+		// 通知消息队列发送验证短信
+		rabbitTemplate.convertAndSend("xc", map);
+
+		System.out.println("验证码为：" + checkCode);
+	}
+
+	/**
+	 * Title : login 
+	 * Description : 用户登录 
+	 * CreateDate : 2019年5月29日 下午3:40:22 
+	 * Author :Yudachi 
+	 * @param user 
+	 * void 
+	 * @throws
+	 */
+	public User userLogin(User user) {
+		User loginUser = userDao.findByPhone(user.getPhone());
+		if (loginUser != null && encoder.matches(user.getPassword(), loginUser.getPassword())) {
+			return loginUser;
+		}
+		return null;
+	}
+	
+	/**
+	 * Title : sellerLogin
+	 * Description : 卖家登录
+	 * CreateDate : 2019年5月29日 下午3:56:52
+	 * Author : Yudachi
+	 * @param seller
+	 * @return
+	 * Seller
+	 * @throws
+	 */
+	public Seller sellerLogin(Seller seller) {
+		Seller loginSeller = sellerDao.findBymobile(seller.getMobile());
+		if (loginSeller != null && encoder.matches(seller.getPassword(), loginSeller.getPassword())) {
+			return loginSeller;
+		}
+		return null;
+	}
+	
+	/**
+	 * Title : findUserById
+	 * Description : 根据ID查询买家和卖家
+	 * CreateDate : 2019年5月29日 下午4:56:33
+	 * Author : Yudachi
+	 * @param id
+	 * @return
+	 * Object
+	 * @throws
+	 */
+	public Object findUserById(String level,String enc) {
+			Claims claims = jwtUtil.parseJWT(enc);
+			String id = claims.getId();
+			if(level.equals("1")) {
+				User user = userDao.findById(id).get();
+				return user;
+			}else if(level.equals("2")) {
+				Seller seller = sellerDao.findById(id).get();
+				return seller;
+			}
+		
+		return null;
+	}
+}

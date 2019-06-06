@@ -1,0 +1,22 @@
+app.controller('itemController',function($scope,itemService){
+	
+	$scope.findItemById=function(id){
+		//查找所有商品
+		itemService.findItemById(id).success(
+			function(response){
+
+			}
+		);		
+	}
+	
+	$scope.findItemByGoodsId = function(goodsId){
+		itemService.findItemByGoodsId(goodsId).success(
+			function(response){
+				$scope.currentItem = response.data;
+				alert($scope.currentItem);
+			}
+		);
+	}
+	
+	
+}); 

@@ -1,0 +1,50 @@
+app.controller('pageController',function($scope,pageService,userService,$location){
+	
+	$scope.RawLevel = null;
+	
+	$scope.sendSms = function(){
+		userService.sendSms($scope.entity.phone).success(
+			function(response){
+				if(response.flag){
+					alert("验证码发送成功");
+				}else{
+					alert("验证码发送失败");
+				}
+			}	
+		);
+	}
+	
+	$scope.num = 1;
+	
+	$scope.Add = function(){
+		$scope.num = $scope.num+1;
+	}
+	
+	$scope.Sub = function(){
+		if($scope.num >= 2){
+			$scope.num = $scope.num-1;
+		}
+	}
+	
+	$scope.initUser = function(){
+		var enc = $location.search()['enc'];
+		var level = $location.search()['level'];
+		$scope.enc = enc;
+		$scope.level = level;
+		$scope.RawLevel = level;
+		userService.findUserById(itemid,level,enc).success(
+			function(response){
+				if(response.flag){
+					if(level == '1'){
+						$scope.User = response.data;
+						alert($scope.User.username);
+					}
+					if(level == '2'){
+						$scope.Seller = response.data;
+					}
+				}
+			}
+		);
+	}
+}); 
+

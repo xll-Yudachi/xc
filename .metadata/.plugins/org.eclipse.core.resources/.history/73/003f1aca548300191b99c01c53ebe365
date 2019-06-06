@@ -1,0 +1,5 @@
+package com.xll.xc.cart.Pojo;
+
+public class TotalResult {
+
+}

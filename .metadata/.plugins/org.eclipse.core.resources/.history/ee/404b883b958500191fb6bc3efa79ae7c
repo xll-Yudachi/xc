@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付页面</title>
+
+<link href="css/base.css" rel="stylesheet" type="text/css">
+<link href="css/css.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-2.1.1.min.js"></script>
+
+<!-- 引入AngularJS -->
+
+<script type="text/javascript" src="Plugins/angularjs/angular.min.js"></script>
+	
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/service/payService.js"></script>
+<script type="text/javascript" src="js/controller/payController.js"></script>
+</head>
+
+<body style="font-size: 15px" ng-app="xc" ng-controller="payController" ng-init="init()">
+	 
+	 <table border="1">
+            <tr>
+            	<th>商品编号</th>
+                <th>商品名</th>
+                <th>数量</th>
+                <th>价格</th>
+            </tr>
+            <tr ng-repeat="item in list">
+            	<td>{{item.id}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.num}}</td>
+                <td>{{item.totalMoney}}</td>
+            </tr>
+       </table>
+    <button style="width: 100%; height: 60px; alignment: center; background: #0095ff8c" ng-click="turnToPayPage()">立即支付</button>
+</body>
+</html>

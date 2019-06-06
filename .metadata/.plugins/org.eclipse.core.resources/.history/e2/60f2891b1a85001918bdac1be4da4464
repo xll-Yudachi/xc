@@ -1,0 +1,5 @@
+package com.xll.xc.pay.Config;
+
+public class WebMvcConfiguration {
+
+}

@@ -1,0 +1,77 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class test {
+	public static List<String> SpecStringToList(String spec){
+		List<String> list = new ArrayList<>();
+		String temp = spec.substring(1, spec.length()-1);
+		
+		String[] specs = temp.split(",");
+		for(String s : specs) {
+			list.add(s);
+		}
+		return list;
+	}
+	
+	public static Map<String, List<String>> ChooseSpec(List<String> list){
+		Map map = new HashMap<>();
+		
+		
+		System.err.println("list:" + list.toString());
+		
+		for(int i=0; i<list.size();i++) {
+			List<String> result = new ArrayList<>();
+			if(list.get(i).split(" ").length > 3) {
+				
+				
+				String[] temp_1 = list.get(i).split(":");
+				System.err.println("temp_1: " + temp_1.toString());
+				System.err.println("temp_1: " + temp_1.length);
+				for(String s : temp_1) {
+					System.err.println("temp_1: " + s);
+				}
+				
+				String[] temp_2 = temp_1[1].split(" ");
+				System.err.println("temp_2: " + temp_2.toString());
+				System.err.println("temp_2: " + temp_2.length);
+				for(String s : temp_2) {
+					System.err.println("temp_2: " + s);
+				}
+				
+				for(String t : temp_2) {
+					result.add(t);
+					System.err.println("添加result:" + t);
+				}
+				
+				for(String t : result) {
+					System.err.print("result的值:" + t);
+				}
+				
+				map.put(temp_1[0], result);
+				
+				List<String> t = (List<String>)map.get(temp_1[0]);
+				System.err.println(temp_1[0]);
+				for(String s:t) {
+					System.err.println(s);
+				}
+				result.removeAll(result);
+			}
+		}
+		return map;
+	}
+	
+	public static void main(String[] args) {
+		String ssString = "[围巾品牌: 汉尚华莲, 功能: 保暖, 材质: 棉, 图案: 植物花卉, 风格: 其他, 性别: 通用, 款式: 围脖, 颜色分类: 红色毛领1个-现货 粉红色毛领1个-现货, 货号: HPS122, 适用季节: 春秋 冬季, 服装款式细节: 刺绣]";
+		List<String> list = SpecStringToList(ssString);
+		Map map = ChooseSpec(list);
+		/*List<String> t = (List<String>)map.get("  颜色分类");
+		for(String s:t) {
+			System.err.println(s);
+		}*/
+	}
+}

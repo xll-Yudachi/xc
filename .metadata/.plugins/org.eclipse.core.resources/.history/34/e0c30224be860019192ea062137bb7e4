@@ -1,0 +1,26 @@
+app.controller('sellerCenterController',function($scope,sellerCenterService,$http,$location){
+	
+	$scope.enc = $location.search()['enc'];
+	$scope.level = $location.search()['level'];
+	
+	$scope.findSellerByEnc = function(){
+		sellerCenterService.findSellerByEnc($scope.enc).success(
+			function(response){
+				if(response.flag){
+					$scope.seller = response.data;
+				}
+			}
+		);
+	}
+	
+	$scope.findItemBySellerId = function(){
+		sellerCenterService.findItemBySellerId($scope.enc).success(
+			function(response){
+				if(response.flag){
+					$scope.itemList = response.rows;
+				}
+			}
+		);
+	}
+}); 
+

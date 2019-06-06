@@ -1,0 +1,65 @@
+app.controller('sellerCenterController',function($scope,sellerCenterService,$http,$location){
+	
+	$scope.enc = $location.search()['enc'];
+	$scope.level = $location.search()['level'];
+	$scope.shopEntity = {};
+	$scope.searchKey = "";
+	$scope.findSellerByEnc = function(){
+		sellerCenterService.findSellerByEnc($scope.enc).success(
+			function(response){
+				if(response.flag){
+					$scope.seller = response.data;
+				}
+			}
+		);
+	}
+	
+	$scope.findItemBySellerId = function(){
+		sellerCenterService.findItemBySellerId($scope.enc).success(
+			function(response){
+				if(response.flag){
+					$scope.itemList = response.data.rows;
+					$scope.searchItemList = response.data.rows;
+				}
+			}
+		);
+	}
+	
+	$scope.findShopBySellerId = function(){
+		sellerCenterService.findShopBySellerId($scope.enc).success(
+			function(response){
+				if(response.flag){
+					$scope.shopList = response.data.rows;
+					
+				}
+			}
+		);
+	}
+	
+	
+	
+	$scope.addShop = function(){
+		sellerCenterService.addShop($scope.shopEntity,$scope.enc).success(
+			function(response){
+				if(response.flag){
+					alert(response.message);
+					$scope.shopEntity = {};
+					window.location.reload(true);
+				}
+			}
+		);
+	}
+	
+	$scope.searchByKeyWord = function(){
+		alert($scope.searchKey);
+		sellerCenterService.searchByKeyWord($scope.enc,$scope.searchKey).success(
+			function(response){
+				if(response.flag){
+					$scope.searchItemList = response.data.rows;
+					alert($scope.searchItemList.length);
+				}
+			}	
+		);
+	}
+}); 
+

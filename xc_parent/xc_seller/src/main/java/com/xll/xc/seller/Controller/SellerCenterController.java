@@ -1,0 +1,113 @@
+package com.xll.xc.seller.Controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xll.xc.seller.Pojo.Item;
+import com.xll.xc.seller.Pojo.Order;
+import com.xll.xc.seller.Pojo.OrderItem;
+import com.xll.xc.seller.Pojo.Seller;
+import com.xll.xc.seller.Pojo.Shop;
+import com.xll.xc.seller.Pojo.TimeEntity;
+import com.xll.xc.seller.Service.SellerCenterService;
+
+import entity.PageResult;
+import entity.Result;
+import entity.StatusCode;
+
+@RestController
+@CrossOrigin
+@RequestMapping("/seller")
+public class SellerCenterController {
+	
+	@Autowired
+	private SellerCenterService sellerCenterService;
+	
+	@GetMapping("/findUser/{enc}")
+	public Result findUserByEnc(@PathVariable String enc) {
+		Seller seller = sellerCenterService.findSellerByEnc(enc);
+		return new Result(true, StatusCode.OK, "查询成功",seller);
+	}
+	
+	@GetMapping("/findItem/{enc}/{page}/{size}")
+	public Result findItemBySellerId(@PathVariable String enc,@PathVariable int page,@PathVariable int size) {
+		Page<Item> pageData = sellerCenterService.findItemBySellerId(enc, page, size);
+		return new Result(true, StatusCode.OK, "查询成功",new PageResult<>(pageData.getTotalElements(),pageData.getContent()));
+	}
+	
+	@GetMapping("/findShop/{enc}/{page}/{size}")
+	public Result findShopBySellerId(@PathVariable String enc,@PathVariable int page,@PathVariable int size) {
+		Page<Shop> pageData = sellerCenterService.findShopBySellerId(enc, page, size);
+		return new Result(true, StatusCode.OK, "查询成功",new PageResult<>(pageData.getTotalElements(),pageData.getContent()));
+	}
+	
+	@PostMapping("/addShop/{enc}")
+	public Result addShop(@PathVariable String enc,@RequestBody Shop shop) {
+		sellerCenterService.addShop(shop, enc);
+		return new Result(true,StatusCode.OK,"申请已提交审核，请稍等");
+	}
+	
+	@GetMapping("/search/{enc}/{key}/{page}/{size}")
+	public Result search(@PathVariable String enc,@PathVariable String key,@PathVariable int page,@PathVariable int size) {
+		Page<Item> pageData = sellerCenterService.search(enc, key,page,size);
+		return new Result(true,StatusCode.OK,"查询成功",new PageResult<>(pageData.getTotalElements(),pageData.getContent()));
+	}
+
+	@PostMapping("/export/{enc}")
+	public Result Export(@PathVariable String enc,@RequestBody TimeEntity timeEntity) {
+		sellerCenterService.Export(enc, timeEntity);
+		return new Result(true, StatusCode.OK, "Excel导出成功");
+	}
+	
+	@GetMapping("/find/{enc}")
+	public Result findOrderByEnc(@PathVariable String enc) {
+		List<Order> orderList = sellerCenterService.findOrderByEnc(enc);
+		if(orderList == null) {
+			return new Result(false,StatusCode.ERROR,"订单不存在");
+		}
+		return new Result(true,StatusCode.OK,"查询成功",orderList);
+	}
+	
+	@GetMapping("/findItem/{enc}")
+	public Result findOrderItemByEnc(@PathVariable String enc) {
+		List<OrderItem> list = sellerCenterService.findOrderItemByEnc(enc);
+		if(list==null || list.size() < 0) {
+			return new Result(false,StatusCode.ERROR,"订单项查询失败");
+		}
+		return new Result(true,StatusCode.OK,"查询成功",list);
+	}
+	
+	@GetMapping("/findMap/{enc}")
+	public Result findOrderMapByEnc(@PathVariable String enc) {
+		Map<String, List<OrderItem>> map = sellerCenterService.findOrderMapByEnc(enc);
+		if(map == null) {
+			return new Result(false,StatusCode.ERROR,"查询失败");
+		}
+		return new Result(true, StatusCode.OK, "查询成功", map);
+	}
+	
+	@GetMapping("/findMapByKey/{enc}/{key}")
+	public Result findOrderMapByEncAndKey(@PathVariable String enc,@PathVariable String key) {
+		Map<String, List<OrderItem>> map = sellerCenterService.findOrderMapByEncAndKey(enc, key);
+		if(map == null || map.isEmpty()) {
+			return new Result(false,StatusCode.ERROR,"订单号错误");
+		}
+		return new Result(true, StatusCode.OK, "查询成功", map);
+	}
+	
+	@GetMapping("/changeStatus/{id}")
+	public Result changeStatus(@PathVariable String id) {
+		sellerCenterService.changeStatus(id);
+		return new Result(true, StatusCode.OK, "状态变更");
+	}
+}

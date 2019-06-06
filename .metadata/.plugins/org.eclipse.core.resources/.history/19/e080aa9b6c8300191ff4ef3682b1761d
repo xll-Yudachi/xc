@@ -1,0 +1,19 @@
+package com.xll.xc.search.Pojo;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+@Document(indexName = "xc_item", type = "item")
+public class Item implements Serializable{
+	@Id
+	private String id;
+	private String title;	//标题
+	private BigDecimal price;	//价格
+	private String image;	//图片
+	private String seller;	//卖家
+	private String state;	//审核状态
+}

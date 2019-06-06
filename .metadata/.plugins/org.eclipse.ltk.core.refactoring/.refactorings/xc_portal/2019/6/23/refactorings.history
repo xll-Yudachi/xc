@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;SearchClient.java&apos; to &apos;xc_pay/src/main/java/com.xll.xc.pay.Client&apos;&#x0D;&#x0A;- Original project: &apos;xc_portal&apos;&#x0D;&#x0A;- Destination element: &apos;xc_pay/src/main/java/com.xll.xc.pay.Client&apos;&#x0D;&#x0A;- Original element: &apos;com.xll.xc.portal.Client.SearchClient.java&apos;" description="Copy compilation unit" destination="=xc_pay/src\/main\/java&lt;com.xll.xc.pay.Client" element1="/src\/main\/java&lt;com.xll.xc.portal.Client{SearchClient.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1559477719115" units="1" version="1.0"/>
+</session>

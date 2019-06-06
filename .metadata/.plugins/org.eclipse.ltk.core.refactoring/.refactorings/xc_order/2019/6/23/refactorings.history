@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.xll.xc.order.DAO&apos; to &apos;com.xll.xc.order.Dao&apos;&#x0D;&#x0A;- Original project: &apos;xc_order&apos;&#x0D;&#x0A;- Original element: &apos;xc_order/src/main/java/com.xll.xc.order.DAO&apos;&#x0D;&#x0A;- Renamed element: &apos;xc_order/src/main/java/com.xll.xc.order.Dao&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;com.xll.xc.order.DAO&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src\/main\/java&lt;com.xll.xc.order.DAO" name="com.xll.xc.order.Dao" qualified="false" references="true" stamp="1559530555719" textual="false" version="1.0"/>
+</session>

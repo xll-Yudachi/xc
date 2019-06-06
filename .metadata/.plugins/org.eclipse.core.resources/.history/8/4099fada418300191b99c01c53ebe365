@@ -1,0 +1,13 @@
+app.controller('itemController',function($scope,itemService){
+	
+	$scope.findItemById=function(id){
+		//查找所有商品
+		itemService.findItemById(id).success(
+			function(response){
+
+			}
+		);		
+	}
+	
+	
+}); 

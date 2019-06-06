@@ -1,0 +1,26 @@
+package com.xll.xc.pay.Pojo;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tb_pay_log")
+public class PayLog implements Serializable{
+	
+	@Id
+	private String out_trade_no;
+	private Timestamp create_time;
+	private Timestamp pay_time;
+	private BigDecimal total_fee;
+	private String user_id;
+	private String transaction_id;
+	private String trade_state;
+	private String order_list;
+	private String pay_type;
+	private String seller_id;
+}

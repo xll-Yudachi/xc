@@ -1,0 +1,22 @@
+app.controller('cartController',function($scope,cartService,$location){
+
+	$scope.showCart = function(){
+		var enc = $location.search()['enc'];
+		alert(enc);
+		cartService.showCart(enc).success(
+			function(response){
+				$scope.cartList = response.data;
+				for(var i=0;i<$scope.cartList.length;i++){
+					alert($scope.cartList[i].image);
+				}
+			}	
+		);
+	}
+	getTokenFromUrl = function(){
+		var url = $location.absUrl();
+		var arr = url.split("/");
+		$scope.itemId = arr[6]
+		$scope.currentToken = arr[7];
+	}
+}); 
+

@@ -1,0 +1,71 @@
+package com.xll.xc.seller.Service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.xll.xc.seller.Dao.ItemDao;
+import com.xll.xc.seller.Dao.SellerDao;
+import com.xll.xc.seller.Dao.ShopDao;
+import com.xll.xc.seller.Pojo.Item;
+import com.xll.xc.seller.Pojo.Seller;
+import com.xll.xc.seller.Pojo.Shop;
+
+import io.jsonwebtoken.Claims;
+import util.IdWorker;
+import util.JwtUtil;
+
+@Service
+@Transactional
+public class SellerCenterService {
+
+	@Autowired
+	private SellerDao sellerDao;
+	@Autowired
+	private JwtUtil jwtUtil;
+	@Autowired
+	private ItemDao itemDao;
+	@Autowired
+	private ShopDao  shopDao;
+	@Autowired
+	private IdWorker idWorker;
+	
+	public Seller findSellerByEnc(String enc) {
+		Claims claims = jwtUtil.parseJWT(enc);
+		String userId = claims.getId();
+		return sellerDao.findBySeller_id(userId);
+	}	
+	
+	public Page<Item> findItemBySellerId(String enc,int page,int size){
+		Pageable pageable = PageRequest.of(page-1, size);
+		Claims claims = jwtUtil.parseJWT(enc);
+		String sellerId = claims.getId();
+		return itemDao.findBySeller_id(sellerId, pageable);
+	}
+	
+	public Page<Shop> findShopBySellerId(String enc,int page,int size){
+		Pageable pageable = PageRequest.of(page-1, size);
+		Claims claims = jwtUtil.parseJWT(enc);
+		return shopDao.findShopBySellerId(claims.getId(),pageable);
+	}
+	
+	public void addShop(Shop shop,String enc) {
+		Claims claims = jwtUtil.parseJWT(enc);
+		shop.setId(idWorker.nextId()+"");
+		shop.setSeller_id(claims.getId());
+		shop.setStatus("1");
+		shopDao.save(shop);
+	}
+	
+	public Page<Item> search(String enc,String key){
+		Claims claims = jwtUtil.parseJWT(enc);
+		String seller_id = claims.getId();
+		return itemDao.search(seller_id, key);
+	}
+}

@@ -1,0 +1,90 @@
+package com.xll.xc.user.Controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.xll.xc.user.Pojo.Address;
+import com.xll.xc.user.Pojo.Order;
+import com.xll.xc.user.Pojo.OrderItem;
+import com.xll.xc.user.Pojo.User;
+import com.xll.xc.user.Service.UserCenterService;
+import com.xll.xc.user.Service.UserService;
+
+import entity.Result;
+import entity.StatusCode;
+import io.jsonwebtoken.Claims;
+import util.IdWorker;
+import util.JwtUtil;
+
+
+@RestController
+@CrossOrigin
+@RequestMapping("/userCenter")
+public class UserCenterController {
+	@Autowired
+	private UserCenterService userCenterService;
+	@Autowired
+	private IdWorker idWorker;
+	
+	@GetMapping("/findUserByEnc/{enc}")
+	public Result findUserByEnc(@PathVariable String enc) {
+		User user = userCenterService.findUserByEnc(enc);
+		if(user == null) {
+			return new Result(false,StatusCode.ACCESSERROR,"用户不存在");
+		}
+		return new Result(true,StatusCode.OK,"查询成功",user);
+	}
+	
+	@GetMapping("/findOrderByEnc/{enc}")
+	public Result findOrderByEnc(@PathVariable String enc) {
+		List<Order> orderList = userCenterService.findOrderByEnc(enc);
+		if(orderList == null) {
+			return new Result(false,StatusCode.ERROR,"订单不存在");
+		}
+		return new Result(true,StatusCode.OK,"查询成功",orderList);
+	}
+	
+	@GetMapping("/findOrderItemByEnc/{enc}")
+	public Result findOrderItemByEnc(@PathVariable String enc) {
+		List<OrderItem> list = userCenterService.findOrderItemByEnc(enc);
+		if(list==null || list.size() < 0) {
+			return new Result(false,StatusCode.ERROR,"订单项查询失败");
+		}
+		return new Result(true,StatusCode.OK,"查询成功",list);
+	}
+	
+	@GetMapping("/findOrderMapByEnc/{enc}")
+	public Result findOrderMapByEnc(@PathVariable String enc) {
+		Map<String, List<OrderItem>> map = userCenterService.findOrderMapByEnc(enc);
+		if(map == null) {
+			return new Result(false,StatusCode.ERROR,"查询失败");
+		}
+		return new Result(true, StatusCode.OK, "查询成功", map);
+	}
+	
+	@GetMapping("/findOrderMapByEncAndKey/{enc}/{key}")
+	public Result findOrderMapByEncAndKey(@PathVariable String enc,@PathVariable String key) {
+		Map<String, List<OrderItem>> map = userCenterService.findOrderMapByEncAndKey(enc, key);
+		if(map == null || map.isEmpty()) {
+			return new Result(false,StatusCode.ERROR,"订单号错误");
+		}
+		return new Result(true, StatusCode.OK, "查询成功", map);
+	}
+	
+	@PostMapping("/addAddress/{enc}")
+	public Result addAddress(@PathVariable String enc,@RequestBody Address address) {
+		userCenterService.addAddress(address);
+		return new Result(true,StatusCode.OK,"地址添加成功");
+	}
+}

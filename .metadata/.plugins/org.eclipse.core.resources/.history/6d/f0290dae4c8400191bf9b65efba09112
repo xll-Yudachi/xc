@@ -1,0 +1,21 @@
+app.controller('userController',function($scope,userService,$location){
+	
+	$scope.RawLevel = null;
+	$scope.currentUser = function(){
+		var enc = $location.search()['enc'];
+		var level = $location.search()['level'];
+		$scope.RawLevel = level;
+		userService.findUserById(level,enc).success(
+			function(response){
+				if(response.flag){
+					if(level == '1'){
+						$scope.User = response.data;
+					}
+					if(level == '2'){
+						$scope.Seller = response.data;
+					}
+				}
+			}
+		);
+	}
+}); 

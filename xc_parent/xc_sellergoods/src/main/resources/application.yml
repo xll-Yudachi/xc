@@ -1,0 +1,23 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: xc-sellergoods
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: ZUIEWANGGUAN
+    url: jdbc:mysql://192.168.80.131:3306/xc?characterEncoding=utf-8
+  jpa:
+    database: mysql
+    show-sql: true
+  #设置超时时间
+  mvc:
+    async:
+      request-timeout: 60000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka/
+  instance:
+    prefer-ip-address: true   #允许跨域调用

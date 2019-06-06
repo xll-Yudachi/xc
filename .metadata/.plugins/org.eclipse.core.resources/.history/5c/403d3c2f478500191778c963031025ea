@@ -1,0 +1,22 @@
+app.controller('payController',function($scope,payService,$location){
+
+	$scope.init = function(){
+		var userId = $location.search()['id'];
+		payService.init(userId).success(
+			function(response){
+				$scope.list = response.data;
+			}	
+		);
+	}
+	
+	$scope.turnToPayPage = function(){
+		var str = "";
+		for(var i=0;i<$scope.list.length;i++){
+			str += $scope.list[i] + ",";
+		}
+		alert(typeof(str));
+		alert(str);
+	}
+	
+}); 
+

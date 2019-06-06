@@ -1,0 +1,21 @@
+package com.xll.xc.user.Config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import com.xll.xc.user.Interceptor.JwtInterceptor;
+
+public class InterceptorConfig extends WebMvcConfigurationSupport{
+	
+	@Autowired
+	private JwtInterceptor jwtInterceptor;
+	
+	@Override
+	protected void addInterceptors(InterceptorRegistry registry) {
+		//注册拦截器 声明拦截器对象和要拦截的请求
+		registry.addInterceptor(jwtInterceptor)
+				.addPathPatterns("/**")
+				.excludePathPatterns("/**/user/**");
+	}
+}

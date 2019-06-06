@@ -1,0 +1,17 @@
+app.controller('searchController',function($scope,searchService,$location){
+	
+	$scope.turntoresult = function(){
+		window.location.href="http://localhost:9001/searchItemList.html#?key=" + $scope.key;
+	}
+	
+	$scope.findByKey = function(){
+		var key = $location.search()['key'];
+		alert(key);
+		searchService.findByKey($scope.key).success(
+			function(response){
+				$scope.searchItemList = response.data.rows;
+			}
+		);
+	}
+	
+}); 

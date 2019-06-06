@@ -1,0 +1,75 @@
+package com.xll.xc.user.Config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import com.zaxxer.hikari.HikariDataSource;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebConfig extends WebSecurityConfigurerAdapter {
+	 	@Autowired
+	    private MyAuthenticationSuccessHandler myAuthenticationSuccess;
+	    @Autowired
+	    private MyAuthenticationProvider myAuthenticationProvider;
+	    @Autowired
+	    private MyAuthenticationFailHandler myAuthenticationFailHandler;
+	    @Autowired
+	    private MyUserDetailService myUserDetailService;
+	    @Autowired
+	    private HikariDataSource dataSource;
+	 
+	 
+	    @Override
+	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	        auth.authenticationProvider(myAuthenticationProvider);
+	    }
+	 
+	    @Override
+	    protected void configure(HttpSecurity http) throws Exception {
+	        http.headers().frameOptions().sameOrigin();
+	        http.csrf()
+	                .disable()
+	                .authorizeRequests()
+	                .antMatchers("/static/**","/resources/**","/login/userauth").permitAll()
+	                .antMatchers("/health","/autoconfig","/configprops","/beans","/dump","/env","/env/**","/info","/mappings","/metrics","/metrics/**","/shutdown","/trace").hasRole("SYS")
+	                .anyRequest().authenticated()
+	                .and().formLogin().loginPage("/login")
+	                .successHandler(myAuthenticationSuccess)
+	                .failureHandler(myAuthenticationFailHandler)
+	                .permitAll()
+	                .and()
+	                .logout().deleteCookies("SESSION", "remember-me")
+	                .and().sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/login").and()
+	                .and().rememberMe().alwaysRemember(true).tokenRepository(persistentTokenRepository())
+	                .tokenValiditySeconds(60 * 60 * 24 * 7)  //设置记住我的时间为7天
+	                .userDetailsService(myUserDetailService)//设置userDetailsService
+	                ;
+	        http.headers().cacheControl(); //禁用缓存
+	    }
+	 
+	    @Override
+	    public void configure(WebSecurity web) throws Exception {
+	        web.ignoring()
+	                .antMatchers( "/api/**", "/resources/**", "/static/**", "/public/**", "/webui/**", "/h2-console/**"
+	                        , "/configuration/**",  "/swagger-resources/**", "/api-docs", "/api-docs/**", "/v2/api-docs/**"
+	                        ,  "/**/*.css", "/**/*.js","/**/*.ftl", "/**/*.png ", "/**/*.jpg", "/**/*.gif ", "/**/*.svg", "/**/*.ico", "/**/*.ttf", "/**/*.woff");
+	    }
+	 
+	    @Bean
+	    public PersistentTokenRepository persistentTokenRepository() {
+	        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+	        tokenRepository.setDataSource(dataSource);
+	        return tokenRepository;
+	    }
+}

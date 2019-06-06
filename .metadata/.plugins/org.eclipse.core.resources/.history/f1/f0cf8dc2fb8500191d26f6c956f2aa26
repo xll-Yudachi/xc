@@ -1,0 +1,29 @@
+package com.xll.xc.user.Service;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xll.xc.user.Dao.UserDao;
+import com.xll.xc.user.Pojo.User;
+
+import util.JwtUtil;
+
+import io.jsonwebtoken.Claims;
+
+@Transactional
+@Service
+public class UserCenterService {
+	
+	@Autowired
+	private JwtUtil jwtUtil;
+	@Autowired
+	private UserDao userDao;
+	
+	public User findUserByEnc(String enc) {
+		Claims claims = jwtUtil.parseJWT(enc);
+		String userId = claims.getId();
+		return userDao.findById(userId).get();
+	}
+}

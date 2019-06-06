@@ -1,0 +1,9 @@
+app.service('userService' ,function($http){	
+	
+	//查询所有商品
+	this.findUserById = function(level,enc){
+		return $http.get('portal/user/findUserById/' + level + '/' + enc);
+	}
+	
+	
+});

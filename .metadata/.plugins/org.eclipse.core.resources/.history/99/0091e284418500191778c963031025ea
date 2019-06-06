@@ -1,0 +1,27 @@
+app.controller('payController',function($scope,payService){
+
+	$scope.init = function(thorder){
+		var String = "";
+		var tt = [[${list}]];
+		alert(tt);
+		
+		for(var i=0;i<thorder.length;i++){
+			String = String + thorder[i] + ",";
+		}
+		alert(String);
+	}
+	
+	$scope.turnToPayPage = function(){
+		payService.turnToPayPage($scope.entity.phone).success(
+			function(response){
+				if(response.flag){
+					alert("验证码发送成功");
+				}else{
+					alert("验证码发送失败");
+				}
+			}	
+		);
+	}
+
+}); 
+

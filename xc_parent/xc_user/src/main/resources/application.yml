@@ -1,0 +1,31 @@
+server:
+  port: 9106
+spring:
+  application:
+    name: xc-user
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.80.131:3306/xc?characterEncoding=utf-8
+    username: root
+    password: ZUIEWANGGUAN
+  jpa:
+    show-sql: true
+    database: mysql
+  rabbitmq:
+    host: 192.168.80.131
+  redis:
+    host: 192.168.80.131
+  mvc:
+    async:
+      request-timeout: 60000
+jwt:
+  config:
+    key: com.xll
+    ttl:  3600000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka
+  instance:
+    prefer-ip-address: true
+      

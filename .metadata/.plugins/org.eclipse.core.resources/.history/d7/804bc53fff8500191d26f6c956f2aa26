@@ -1,0 +1,61 @@
+package com.xll.xc.user.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xll.xc.user.Dao.OrderDao;
+import com.xll.xc.user.Dao.OrderItemDao;
+import com.xll.xc.user.Dao.UserDao;
+import com.xll.xc.user.Pojo.Order;
+import com.xll.xc.user.Pojo.OrderItem;
+import com.xll.xc.user.Pojo.User;
+
+import util.JwtUtil;
+
+import io.jsonwebtoken.Claims;
+
+@Transactional
+@Service
+public class UserCenterService {
+	
+	@Autowired
+	private JwtUtil jwtUtil;
+	@Autowired
+	private UserDao userDao;
+	@Autowired
+	private OrderDao orderDao;
+	@Autowired
+	private OrderItemDao orderItemDao;
+	
+	public User findUserByEnc(String enc) {
+		Claims claims = jwtUtil.parseJWT(enc);
+		String userId = claims.getId();
+		return userDao.findById(userId).get();
+	}
+	
+	public Order findOrderByEnc(String enc) {
+		Claims claims = jwtUtil.parseJWT(enc);
+		String userId = claims.getId();
+		return orderDao.findByUser_id(userId);
+	}
+	
+	public List<OrderItem> findOrderItemByEnc(String enc){
+		List<OrderItem> list = new ArrayList<>();
+		Claims claims = jwtUtil.parseJWT(enc);
+		String userId = claims.getId();
+		List<Order> orderList = orderDao.findByUser_id(userId);
+		if(orderList == null) {
+			return null;
+		}else {
+			for(int i =0;i<orderList.size();i++) {
+				orderItemDao.findByOrder_id(orderList.get(i).getOrder_id());
+			}
+		}
+	}
+}

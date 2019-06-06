@@ -1,0 +1,25 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class test {
+	
+	public static List LinkedHashMapToList(String str){
+		List<TotalResult> list = new ArrayList<>();
+		str = str.substring(1, str.length()-1);
+		System.err.println(str);
+		return list; 
+	}
+	
+	public static void main(String[] args) {
+		String ssString = "[{id=1370132, title= 赫本风露肩雪纺连衣裙女春秋2019流行中长款仙女裙收腰衬衫裙子 , price=198.0, totalFee=594.0, totalMoney=594.0, num=3, image=//gd3.alicdn.com/imgextra/i3/14197825/O1CN01nY7Kj427ftic6nK1m_!!14197825.jpg_400x400.jpg, sellerid= 沐乃衣女装 }, {id=1370557, title= 2019春季新款女装韩版雪纺衬衫半身裙两件套百搭显瘦连衣裙套装女 , price=658.0, totalFee=1316.0, totalMoney=1316.0, num=2, image=https://gd1.alicdn.com/imgextra/i4/377261732/O1CN01SGWeSs1OfIUUM1pKl_!!377261732.jpg_400x400.jpg, sellerid= 毛夫人美衣定制 }, {id=1369550, title= 2019早春新款中长款过膝不规则网纱短袖连衣裙女装显瘦仙女蛋糕裙 , price=99.0, totalFee=99.0, totalMoney=99.0, num=1, image=//gd4.alicdn.com/imgextra/i1/3143300088/O1CN01NgMqbB1CWLLytIudM_!!3143300088.jpg_400x400.jpg, sellerid= 大小姐的私人衣橱 }]";
+		LinkedHashMapToList(ssString);
+	}
+}

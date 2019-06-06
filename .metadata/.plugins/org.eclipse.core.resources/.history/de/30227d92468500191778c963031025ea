@@ -1,0 +1,14 @@
+app.controller('payController',function($scope,payService,$location){
+
+	$scope.init = function(){
+		var userId = $location.search()['id'];
+		alert(userId);
+		payService.init(userId).success(
+			function(response){
+				$scope.list = response.data;
+			}	
+		);
+	}
+	
+}); 
+

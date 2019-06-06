@@ -1,0 +1,11 @@
+package com.xll.xc.pay.Service;
+
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
+@Transactional
+@Service
+public class PayLogService {
+
+}

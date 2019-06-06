@@ -1,0 +1,13 @@
+app.controller('cartController',function($scope,cartService){
+	
+	$scope.num = null;
+	
+	$scope.addItemToCartList = function(){
+		cartService.addItemToCartList($scope.entity.phone).success(
+			function(response){
+			
+			}	
+		);
+	}
+}); 
+

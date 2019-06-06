@@ -1,0 +1,17 @@
+package com.xll.xc.user.Dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+
+import com.xll.xc.user.Pojo.Order;
+
+public interface OrderDao extends JpaRepository<Order, String>,JpaSpecificationExecutor<Order>{
+
+	@Query(value = "SELECT * from tb_order where user_id = ?",nativeQuery=true)
+	public List<Order> findByUser_id(String user_id);
+	
+	public List<Order> findByUser_idAndOrder_id(String user_id,String order_id);
+}

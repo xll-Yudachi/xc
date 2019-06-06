@@ -1,0 +1,7 @@
+app.service('sellerCenterService' ,function($http){	
+	
+	this.findSellerByEnc = function(enc){
+		return $http.get('/seller/findUser/' + enc);
+	}
+	
+});

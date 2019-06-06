@@ -1,0 +1,42 @@
+app.controller('searchController',function($scope,searchService,$location,userService){
+	
+	$scope.RawLevel = null;
+	
+	$scope.turntoresult = function(){
+		var enc = $location.search()['enc'];
+		var level = $location.search()['level'];
+		if(enc==null){
+			alert("请先登录");
+			return;
+		}
+		window.location.href="http://localhost:9001/searchItemList.html#?key=" + $scope.key + "&enc=" + enc +"&level=" + level;
+		location.reload();
+	}
+	
+	$scope.findByKey = function(){
+		var key = $location.search()['key'];
+		searchService.findByKey(key).success(
+			function(response){
+				$scope.searchItemList = response.data.rows;
+			}
+		);
+	}
+	
+	$scope.initUser = function(){
+		var enc = $location.search()['enc'];
+		var level = $location.search()['level'];
+		$scope.RawLevel = level;
+		userService.findUserById(level,enc).success(
+			function(response){
+			    if(response.flag){
+					if(level == '1'){
+						$scope.User = response.data;
+					}
+					if(level == '2'){
+						$scope.Seller = response.data;
+					}
+				}	
+			}
+		);
+	}
+}); 

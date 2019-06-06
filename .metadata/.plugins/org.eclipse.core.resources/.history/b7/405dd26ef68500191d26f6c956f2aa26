@@ -1,0 +1,22 @@
+app.service('userService' ,function($http){	
+	//用户注册
+	this.registerUser = function(level,entity,checkCode){
+		return $http.post('user/register/' + checkCode + "/" + level,entity);
+	}
+	
+	//发送短信验证码
+	this.sendSms = function(phone){
+		return $http.get('user/sendsms/' + phone);
+	}
+	
+	//用户登录
+	this.userLogin = function(entity){
+		return $http.post('user/userLogin',entity);
+	}
+	
+	//卖家登录
+	this.sellerLogin = function(entity){
+		return $http.post('user/sellerLogin',entity);
+	}
+	
+});

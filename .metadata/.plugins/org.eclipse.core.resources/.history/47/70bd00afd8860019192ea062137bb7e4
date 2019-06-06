@@ -1,0 +1,19 @@
+app.service('sellerCenterService' ,function($http){	
+	
+	this.findSellerByEnc = function(enc){
+		return $http.get('/seller/findUser/' + enc);
+	}
+	
+	this.findItemBySellerId = function(enc){
+		return $http.get('/seller/findItem/' + enc + '/1' + '/16');
+	}
+	
+	this.findShopBySellerId = function(enc){
+		return $http.get('/seller/findShop/' + enc + '/1' + '/10');
+	}
+	
+	this.addShop = function(entity){
+		return $http.post('/seller/addShop',entity);
+	}
+	
+});

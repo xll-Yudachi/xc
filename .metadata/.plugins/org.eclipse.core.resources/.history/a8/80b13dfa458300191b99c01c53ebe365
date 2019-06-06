@@ -1,0 +1,8 @@
+package com.xll.xc.portal.Client;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient(value="xc-page")
+public interface PageClient {
+
+}

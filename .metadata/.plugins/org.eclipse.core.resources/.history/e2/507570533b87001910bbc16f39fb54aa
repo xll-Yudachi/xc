@@ -1,0 +1,11 @@
+package com.xll.xc.seller.Dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import com.xll.xc.seller.Pojo.PayLog;
+
+public interface PayLogDao extends JpaRepository<PayLog, String>,JpaSpecificationExecutor<PayLog>{
+	
+	
+}

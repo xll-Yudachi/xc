@@ -1,0 +1,5 @@
+app.service('userCenterService' ,function($http){	
+	this.findUserById = function(level,enc){
+		return $http.get('/user/findUserById/' + level + '/' + enc);
+	}
+});

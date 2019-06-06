@@ -1,0 +1,28 @@
+package com.xll.xc.pay.Pojo;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class Order implements Serializable{
+	private String userID;
+	private List<TotalResult> orderList;
+	public String getUserID() {
+		return userID;
+	}
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+	public List<TotalResult> getOrderList() {
+		return orderList;
+	}
+	public void setOrderList(List<TotalResult> orderList) {
+		this.orderList = orderList;
+	}
+	public Order(String userID, List<TotalResult> orderList) {
+		this.userID = userID;
+		this.orderList = orderList;
+	}
+	public Order() {
+	}
+	
+}

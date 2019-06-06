@@ -1,0 +1,17 @@
+package com.xll.xc.seller.Service;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xll.xc.seller.Dao.SellerDao;
+
+@Service
+@Transactional
+public class SellerCenterService {
+
+	@Autowired
+	private SellerDao sellerDao;
+	
+}

@@ -1,0 +1,10 @@
+app.service('itemService' ,function($http){	
+	
+	this.findItemById = function(id){
+		return $http.get('/page/item/findItemById/'+id);
+	}
+	
+	this.findItemByGoodsId = function(goodsId){
+		return $htpp.get('/item/findItemByGoodsId/' + goodsId);
+	}
+});

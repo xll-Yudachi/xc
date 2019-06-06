@@ -1,0 +1,16 @@
+app.controller('itemController',function($scope,itemService){
+	
+	$scope.findAllGoods=function(){
+		//查找所有商品
+		goodsService.findAllGoods().success(
+			function(response){
+				$scope.goodslist = response.data;
+				for(var i=0; i<$scope.goodslist.length;i++){
+					$scope.goodslist[i].small_pic = SplitStringByComma($scope.goodslist[i].small_pic);
+				}
+			}
+		);		
+	}
+	
+	
+}); 

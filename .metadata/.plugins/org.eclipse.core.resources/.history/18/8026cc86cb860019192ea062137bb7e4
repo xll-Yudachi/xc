@@ -1,0 +1,10 @@
+app.service('sellerCenterService' ,function($http){	
+	
+	this.findSellerByEnc = function(enc){
+		return $http.get('/seller/findUser/' + enc);
+	}
+	
+	this.findItemBySellerId = function(enc){
+		return $http.get('/seller/findItem/' + enc + '/1' + '/16');
+	}
+});

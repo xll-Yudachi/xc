@@ -1,0 +1,37 @@
+server:
+  port: 9004
+spring:
+  application:
+    name: xc-page
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    servlet:
+      content-type: text/html; charset=utf-8
+    mode: HTML5
+    cache: false
+  datasource: 
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: ZUIEWANGGUAN
+    url: jdbc:mysql://192.168.80.131:3306/xc?characterEncoding=utf-8
+  jpa:
+    show-sql: true
+    database: mysql
+  #静态文件请求匹配方式
+  mvc: 
+    static-path-pattern: /**
+    #设置超时时间
+    async:
+      request-timeout: 60000
+  #修改默认的静态寻址资源目录
+  resources: 
+    static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka/
+  instance:
+    prefer-ip-address: true

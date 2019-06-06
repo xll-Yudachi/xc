@@ -1,0 +1,54 @@
+package test;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class test {
+	
+	public static List LinkedHashMapToList(String str){
+		List<String> listString = new ArrayList<>();
+		List<TotalResult> list = new ArrayList<>();
+		str = str.substring(1, str.length()-1);
+		String[] temp1 = str.split(",");
+		for(String s : temp1) {
+			s = s.trim();
+			if(s.startsWith("{")) {
+				s=s.substring(1);
+			}
+			if(s.endsWith("}")) {
+				s=s.substring(0, s.length()-1);
+			}
+			s = s.substring(s.indexOf("=")+1).trim();
+			
+			listString.add(s);
+		}
+		for(int i=0;i<listString.size()/8;i++) {
+			TotalResult totalResult = new TotalResult();
+			totalResult.setId(listString.get(8*i));
+			totalResult.setTitle(listString.get(8*i+1));
+			totalResult.setPrice(new BigDecimal(listString.get(8*i+2)));
+			totalResult.setTotalFee(new BigDecimal(listString.get(8*i+3)));
+			totalResult.setTotalMoney(new BigDecimal(listString.get(8*i+4)));
+			totalResult.setNum(new Integer(listString.get(8*i+5)));
+			totalResult.setImage(listString.get(8*i+6));
+			totalResult.setSellerid(listString.get(8*i+7));
+			list.add(totalResult);
+		}
+		return list; 
+	}
+	
+	public static void main(String[] args) {
+		String ssString = "[{id=1370132, title= 赫本风露肩雪纺连衣裙女春秋2019流行中长款仙女裙收腰衬衫裙子 , price=198.0, totalFee=594.0, totalMoney=594.0, num=3, image=//gd3.alicdn.com/imgextra/i3/14197825/O1CN01nY7Kj427ftic6nK1m_!!14197825.jpg_400x400.jpg, sellerid= 沐乃衣女装 }, {id=1370557, title= 2019春季新款女装韩版雪纺衬衫半身裙两件套百搭显瘦连衣裙套装女 , price=658.0, totalFee=1316.0, totalMoney=1316.0, num=2, image=https://gd1.alicdn.com/imgextra/i4/377261732/O1CN01SGWeSs1OfIUUM1pKl_!!377261732.jpg_400x400.jpg, sellerid= 毛夫人美衣定制 }, {id=1369550, title= 2019早春新款中长款过膝不规则网纱短袖连衣裙女装显瘦仙女蛋糕裙 , price=99.0, totalFee=99.0, totalMoney=99.0, num=1, image=//gd4.alicdn.com/imgextra/i1/3143300088/O1CN01NgMqbB1CWLLytIudM_!!3143300088.jpg_400x400.jpg, sellerid= 大小姐的私人衣橱 }]";
+		List<TotalResult> list = LinkedHashMapToList(ssString);
+		for(TotalResult t: list) {
+			System.out.println(t.getId());
+		}
+	}
+}

@@ -1,0 +1,7 @@
+app.service('payService' ,function($http,$location){	
+	
+	this.init = function(userId){
+		return $http.get('');
+	}
+	
+});

@@ -1,0 +1,5 @@
+package com.xll.xc.order.Dao;
+
+public interface OrderDao {
+
+}

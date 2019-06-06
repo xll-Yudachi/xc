@@ -1,0 +1,16 @@
+package com.xll.xc.portal.Client;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import entity.PageResult;
+import entity.Result;
+import entity.StatusCode;
+
+@FeignClient(value = "xc-search")
+public interface SearchClient {
+	@GetMapping("/{key}/{page}/{size}")
+	public Result findByKey(@PathVariable("key") String key,@PathVariable("page") int page, @PathVariable("size") int size);
+}

@@ -1,0 +1,13 @@
+app.controller('searchController',function($scope,searchService){
+	
+	$scope.searchItemList;
+	
+	$scope.findByKey = function(){
+		searchService.findByKey($scope.key).success(
+			function(response){
+				$scope.searchItemList = response.data.rows;
+			}
+		);
+	}
+	
+}); 

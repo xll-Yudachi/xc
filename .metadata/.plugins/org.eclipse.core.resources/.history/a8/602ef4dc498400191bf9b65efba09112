@@ -1,0 +1,40 @@
+package com.xll.xc.user.Config;
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+
+public class MyAuthenticationProvinder implements AuthenticationProvider {
+
+	 
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+ 
+        String userName = authentication.getName();// 这个获取表单输入中的用户名
+        String password = (String) authentication.getCredentials();
+       
+        UserInfo userInfo = (UserInfo) myUserDetailService.loadUserByUsername(userName);
+        
+        String pwd = MD5Utils.encryptMD5Pwd(password,userInfo.getSalt());
+        System.out.println(pwd);
+        if(!pwd.equals(userInfo.getPassword())){
+            throw new UsernameNotFoundException("用户名或者密码不正确");
+        }
+ 
+        Collection<? extends GrantedAuthority> authorities = userInfo.getAuthorities();
+ 
+        return new UsernamePasswordAuthenticationToken(userInfo, pwd, authorities);
+ 
+    }
+ 
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return true;
+    }
+
+}
+

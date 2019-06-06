@@ -1,0 +1,5 @@
+package com.xll.xc.user.Config;
+
+public class MyAuthenticationProvinder {
+
+}

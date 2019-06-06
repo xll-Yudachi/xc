@@ -1,0 +1,5 @@
+package com.xll.xc.pay.Dao;
+
+public interface PayLogDao {
+
+}

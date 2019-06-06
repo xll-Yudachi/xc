@@ -1,0 +1,31 @@
+app.controller('payController',function($scope,payService,$location){
+
+	$scope.totalMoney = 0;
+	$scope.init = function(){
+		var userId = $location.search()['id'];
+		payService.init(userId).success(
+			function(response){
+				$scope.list = response.data;
+				for(var i=0;i<$scope.list.length;i++){
+					$scope.totalMoney += $scope.list[i].totalMoney;
+				}
+			}	
+		);
+	}
+	
+	$scope.entity = {};
+	$scope.entity.id = null;
+	$scope.entity.order = null;
+	
+	$scope.turnToPayPage = function(){
+		$scope.entity.id = $location.search()['id'];
+		$scope.entity.order = $scope.list;
+		payService.gotoPayPage($scope.entity).success(
+			function(response){
+				
+			}
+		);
+	}
+	
+}); 
+
